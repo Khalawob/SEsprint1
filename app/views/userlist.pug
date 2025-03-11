@@ -1,0 +1,14 @@
+html 
+    head    
+        title Title here...
+    body
+       h1 Heading here... user list 
+       p first paragraph xxx
+       - console.log(data)
+       .main-content 
+       table(border=1)
+            for item in data 
+                tr  
+                    td #{item.User_ID}
+                    td 
+                        a(href='/student-single/' + item.id) #{item.User_Name}

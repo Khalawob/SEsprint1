@@ -4,6 +4,10 @@ const express = require("express");
 // Create express app
 var app = express();
 
+// Use the Pug templating engine
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
 // Add static files location
 app.use(express.static("static"));
 
@@ -12,8 +16,40 @@ const db = require('./services/db');
 
 // Create a route for root - /
 app.get("/", function(req, res) {
-    res.send("Hello world!");
+    res.render("index");
 });
+
+app.get("/about", function(req, res) {
+    res.render("about");
+});
+
+app.get("/userprofile", function(req, res) {
+    res.render("userprofile");
+});
+
+app.get("/userlist", function(req, res) {
+    var sql = 'select * from Users';
+    db.query(sql).then(results => {
+        // Send the results rows to the all-students template
+        // The rows will be in a variable called data
+        //console.log(results);
+        res.render('userlist', {data: results});
+});
+});
+
+app.get("/listing", function(req, res) {
+    res.render("listing");
+});
+
+app.get("/detailed", function(req, res) {
+    res.render("detailed");
+});
+
+app.get("/tag", function(req, res) {
+    res.render("tag");
+});
+
+
 
 // Create a route for testing the db
 app.get("/db_test", function(req, res) {
@@ -21,9 +57,11 @@ app.get("/db_test", function(req, res) {
     sql = 'select * from test_table';
     db.query(sql).then(results => {
         console.log(results);
-        res.send(results)
+        res.render(results)
     });
 });
+
+
 
 // Create a route for /goodbye
 // Responds to a 'GET' request
@@ -39,7 +77,7 @@ app.get("/hello/:name", function(req, res) {
     // We can examine it in the console for debugging purposes
     console.log(req.params);
     //  Retrieve the 'name' parameter and use it in a dynamically generated page
-    res.send("Hello " + req.params.name);
+    res.render("Hello " + req.params.name);
 });
 
 // Start server on port 3000
