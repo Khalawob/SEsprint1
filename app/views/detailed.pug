@@ -1,6 +1,21 @@
-html 
-    head    
-        title Title here...
-    body
-       h1 Heading here...
-       p first paragraph xxxxxxx
+doctype html
+html
+  head
+    title Detailed View - Minimise Food Waste
+  body
+    header
+      h1 Detailed Listing
+      nav
+        a(href='/') Home
+        |  |  
+        a(href='/listing') Back to Listings
+    main
+      if listing
+        h2= listing.Item_name
+        p Quantity Available: #{listing.Quantity}
+        p Claimed: #{listing.Claimed ? "Yes" : "No"}
+        p Category: #{listing.Category_Name}
+      else
+        p No listing details available.
+    footer
+      p © 2025 Minimise Food Waste

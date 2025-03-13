@@ -1,6 +1,20 @@
-html 
-    head    
-        title Title here...
-    body
-       h1 Heading here...
-       p first paragraph xxx
+extends layout
+
+block content
+  h1 User Profile
+
+  if user
+    h2 #{user.User_Name}
+    p Location: #{user.Location}
+    p Email: #{user.Email}
+
+    h3 Activity Summary
+    ul
+      li Items Donated: #{user.Total_Items_Donated}
+      li Items Requested: #{user.Total_Items_Requested}
+
+    p 
+      a(href="/userlist") ← Back to User List
+
+  else
+    p User not found.

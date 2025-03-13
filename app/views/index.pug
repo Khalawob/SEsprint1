@@ -1,6 +1,25 @@
-html 
-    head    
-        title Title here...
-    body
-       h1 Heading here...
-       p first paragraph xxx
+extends layout
+
+block content
+  h1 Welcome to Minimise Food Waste
+
+  p Our mission is to reduce food waste by connecting people who have extra food with those who need it. 
+  p Join our community and make a difference today!
+
+  h2 How It Works
+  ol
+    li Create an account and log in.
+    li Browse available food listings or post your own extra food.
+    li Request food from others and help reduce waste.
+    li Connect with people in your area to exchange food.
+
+  h2 Explore Our Platform
+  ul
+    li 
+      a(href='/listing') Browse Available Food
+    li 
+      a(href='/userlist') View Community Members
+    li 
+      a(href='/about') Learn More About Us
+
+
