@@ -1,6 +1,49 @@
-html 
-    head    
-        title Title here...
-    body
-       h1 Heading here...
-       p first paragraph xxxxxxx
+doctype html
+html
+  head
+    title Tag Your Food Item
+    link(rel="stylesheet", href="/css/styles.css")
+    script(src="/js/main.js")
+  body
+    .container
+      h1 Tag Your Food Item
+      p Please provide details about the food item you wish to share. This helps in categorizing and ensuring it reaches those who need it most.
+      
+      form#tagForm(action="/submit-tag", method="post")
+        .form-group
+          label(for="foodName") Food Name:
+          input#foodName(type="text", name="foodName", required=true, aria-describedby="foodNameHelp")
+          small#foodNameHelp.hidden Food name must be at least 3 characters.
+        
+        .form-group
+          label(for="category") Category:
+          select#category(name="category", required=true, onchange="loadSubcategories(this.value)", aria-describedby="categoryHelp")
+            option(value="") Select Category
+            option(value="fruits") Fruits
+            option(value="vegetables") Vegetables
+            option(value="bakedGoods") Baked Goods
+            option(value="others") Others
+          small#categoryHelp.hidden Please select a category.
+        
+        .form-group
+          label(for="subcategory") Subcategory:
+          select#subcategory(name="subcategory", required=true, disabled=true, aria-describedby="subcategoryHelp")
+          small#subcategoryHelp.hidden Select a subcategory based on the category selected.
+        
+        .form-group
+          label(for="condition") Condition:
+          select#condition(name="condition", required=true)
+            option(value="") Select Condition
+            option(value="fresh") Fresh
+            option(value="nearExpiry") Near Expiry
+            option(value="expired") Expired (Non-perishable only)
+        
+        .form-group
+          label(for="description") Description:
+          textarea#description(name="description", required=true)
+        
+        button(type="submit") Tag and Share Food
+
+        .notification
+          span#successMessage.hidden Success! Your item has been tagged.
+          span#errorMessage.hidden Please fill all fields correctly.
