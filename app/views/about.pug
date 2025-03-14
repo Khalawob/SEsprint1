@@ -1,6 +1,41 @@
-html 
-    head    
-        title Title here...
-    body
-       h1 Heading here...
-       p first paragraph xxx
+html
+  head
+    title About - Minimizing Food Waste
+    link(rel="stylesheet", href="/css/styles.css")
+  body
+    header
+      nav
+        ul
+          li: a(href="/") Home
+          li: a(href="/about") About
+          li: a(href="/listing") Listings
+          li: a(href="/tag") Tag Food
+          li: a(href="/contact") Contact
+    main
+      section.mission
+        h2 Our Mission
+        p Our mission is to reduce food waste by connecting communities and sharing excess food resources. We strive to educate, empower, and inspire individuals to make sustainable choices for a healthier planet.
+      
+      section.guide
+        h2 How It Works – Step-by-Step Guide
+        ol
+          li Register for an account.
+          li Browse through available food items.
+          li Post or request excess food items.
+          li Connect with community members.
+          li Enjoy a sustainable lifestyle.
+      
+      section.navigation-links
+        h2 Explore the Site
+        ul
+          li: a(href="/about") Learn More About Us
+          li: a(href="/listing") View Food Listings
+          li: a(href="/tag") Tag Your Food
+          li: a(href="/contact") Contact Us
+          
+      section.cta
+        h2 Join Our Community!
+        p Become part of a growing movement dedicated to minimizing food waste and creating a sustainable future.
+        a.button(href="/signup") Sign Up Now
+    footer
+      p &copy; 2025 Minimizing Food Waste Initiative
