@@ -36,14 +36,26 @@ app.get("/about", (req, res) => {
     });
 });
 
-// User profile page
-app.get("/userprofile", (req, res) => {
-    res.render("userprofile", (err, html) => {
-        if (err) {
-            console.error("Error rendering userprofile:", err);
-            return res.status(500).send("Error rendering page.");
+// User Profile Page (Dynamic - Fetch user details from DB)
+app.get("/userprofile/:id", function(req, res) {
+    const userId = req.params.id;
+    const sql = `
+        SELECT u.User_ID, u.User_Name, u.Location, u.Email, 
+               (SELECT COUNT(*) FROM Item WHERE User_ID = u.User_ID) AS Total_Items_Donated,
+               (SELECT COUNT(*) FROM Request WHERE User_ID = u.User_ID) AS Total_Items_Requested
+        FROM Users u
+        WHERE u.User_ID = ?
+    `;
+
+    db.query(sql, [userId]).then(results => {
+        if (results.length > 0) {
+            res.render("userprofile", { user: results[0] });
+        } else {
+            res.send("User not found.");
         }
-        res.send(html);
+    }).catch(err => {
+        console.error(err);
+        res.send("Error retrieving user profile.");
     });
 });
 
@@ -77,15 +89,30 @@ app.get("/listing", (req, res) => {
     });
 });
 
-// Detailed page
-app.get("/detailed", (req, res) => {
-    res.render("detailed", (err, html) => {
-        if (err) {
-            console.error("Error rendering detailed:", err);
-            return res.status(500).send("Error rendering page.");
+// Detailed Page - Dynamic ID
+app.get("/detailed/:id", function(req, res) {
+    const id = req.params.id;
+    const sql = `
+      SELECT i.Item_ID, i.Item_name, i.Quantity, i.Claimed, c.Category_Name
+      FROM Item i
+      INNER JOIN Category c ON i.Category_ID = c.Category_ID
+      WHERE i.Item_ID = ?
+    `;
+    db.query(sql, [id]).then(results => {
+        if (results.length > 0) {
+            res.render("detailed", { listing: results[0] });
+        } else {
+            res.send("No listing found.");
         }
-        res.send(html);
+    }).catch(err => {
+        console.error(err);
+        res.send("Error retrieving listing details.");
     });
+});
+
+// Catch /detailed without ID and redirect
+app.get("/detailed", function(req, res) {
+    res.send("Please provide an item ID. Example: /detailed/1");
 });
 
 // Enhanced tag route with additional data for dropdowns

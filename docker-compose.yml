@@ -1,39 +1,28 @@
+version: '3.3'
 services:
   web:
     build:
       context: ./
     volumes:
       - .:/src
-    command: supervisor -e 'js,pug,html' index.js
+    command: supervisor -e  'js,pug,html' index.js
     ports:
       - "3000:3000"
     depends_on:
       - db
-    networks:
-      - app-network
-
   db:
     image: mysql
     restart: always
     env_file:
       - ./.env
     ports:
-      - "3309:3306"
+      - "3308:3306"
     volumes:
       - ./db:/var/lib/mysql
-    networks:
-      - app-network
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     env_file:
       - ./.env
     ports:
-      - "8082:80"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - "8081:80"
