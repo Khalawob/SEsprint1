@@ -1,5 +1,90 @@
-html 
+doctype html
+html(lang="en")
     head    
-        title #{title}
+        title #{title || 'Minimise Food Waste'}
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+        link(rel="stylesheet" href="/css/style.css")
     body 
-        block content
+        // Main Navigation
+        nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+            .container
+                a.navbar-brand(href="/") 
+                    i.fas.fa-seedling.me-2
+                    | Minimise Food Waste
+                
+                button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain")
+                    span.navbar-toggler-icon
+                
+                #navbarMain.collapse.navbar-collapse
+                    ul.navbar-nav.me-auto
+                        li.nav-item
+                            a.nav-link(href="/") Home
+                        
+                        if user && user.isLoggedIn
+                            li.nav-item
+                                a.nav-link(href="/listing") Food Listings
+                            li.nav-item
+                                a.nav-link(href="/recommendations") Recommendations
+                            li.nav-item
+                                a.nav-link(href="/messages")
+                                    | Messages
+                                    if user.unreadMessages && user.unreadMessages > 0
+                                        span.badge.bg-light.text-success.ms-1= user.unreadMessages
+                    
+                    if user && user.isLoggedIn
+                        ul.navbar-nav
+                            li.nav-item.dropdown
+                                a.nav-link.dropdown-toggle(href="#" id="userDropdown" role="button" data-bs-toggle="dropdown")
+                                    i.fas.fa-user-circle.me-1
+                                    | #{user.name}
+                                    if user.points
+                                        span.badge.bg-light.text-success.ms-1= user.points + ' pts'
+                                
+                                ul.dropdown-menu.dropdown-menu-end
+                                    li
+                                        a.dropdown-item(href="/profile")
+                                            i.fas.fa-user.me-2
+                                            | My Profile
+                                    li
+                                        a.dropdown-item(href="/my-listings")
+                                            i.fas.fa-list.me-2
+                                            | My Listings
+                                    li
+                                        a.dropdown-item(href="/messages")
+                                            i.fas.fa-envelope.me-2
+                                            | Messages
+                                    li.dropdown-divider
+                                    li
+                                        a.dropdown-item(href="/logout")
+                                            i.fas.fa-sign-out-alt.me-2
+                                            | Logout
+                    else
+                        .d-flex
+                            a.btn.btn-outline-light.me-2(href="/login") Login
+                            a.btn.btn-light(href="/signup") Sign Up
+        
+        // Main Content
+        main
+            block content
+        
+        // Footer
+        footer.bg-light.py-4.mt-5
+            .container
+                .row
+                    .col-md-6
+                        h5 Minimise Food Waste
+                        p.text-muted A platform to reduce food waste and help the community
+                    .col-md-6.text-md-end
+                        p
+                            a.text-decoration-none.text-muted.me-3(href="#") About Us
+                            a.text-decoration-none.text-muted.me-3(href="#") Contact
+                            a.text-decoration-none.text-muted(href="#") Privacy Policy
+                        p.text-muted &copy; 2025 Minimise Food Waste. All rights reserved.
+        
+        // Scripts
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+        script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+        block scripts

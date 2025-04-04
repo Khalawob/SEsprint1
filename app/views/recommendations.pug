@@ -1,0 +1,313 @@
+extends layout
+
+block content
+  .container-fluid.py-5.mt-5
+    .row.mb-4
+      .col-12
+        h1.display-5.fw-bold.text-success
+          i.fas.fa-lightbulb.me-3
+          | Personalized Recommendations
+        p.lead.text-muted Discover food items tailored to your preferences and location
+
+    // Recommendation filters
+    .row.mb-4
+      .col-12
+        .card.shadow-sm.border-0
+          .card-body
+            form#filterForm.row.g-3
+              .col-md-3
+                label.form-label(for="distance") Maximum Distance
+                select#distance.form-select
+                  option(value="1") Within 1 km
+                  option(value="3" selected) Within 3 km
+                  option(value="5") Within 5 km
+                  option(value="10") Within 10 km
+                  option(value="0") Any distance
+              
+              .col-md-3
+                label.form-label(for="category") Food Category
+                select#category.form-select
+                  option(value="all" selected) All Categories
+                  option(value="fruits") Fruits
+                  option(value="vegetables") Vegetables
+                  option(value="dairy") Dairy
+                  option(value="bakery") Bakery
+                  option(value="pantry") Pantry Items
+              
+              .col-md-3
+                label.form-label(for="dietary") Dietary Preferences
+                select#dietary.form-select
+                  option(value="all" selected) All Types
+                  option(value="vegetarian") Vegetarian
+                  option(value="vegan") Vegan
+                  option(value="glutenFree") Gluten-Free
+                  option(value="organic") Organic
+              
+              .col-md-3
+                label.form-label(for="sortBy") Sort By
+                select#sortBy.form-select
+                  option(value="relevance" selected) Relevance
+                  option(value="distance") Distance
+                  option(value="expiry") Expiry Date
+                  option(value="rating") Provider Rating
+              
+              .col-12.text-end.mt-4
+                button.btn.btn-outline-secondary.me-2(type="reset")
+                  i.fas.fa-undo.me-2
+                  | Reset
+                button.btn.btn-success(type="submit")
+                  i.fas.fa-filter.me-2
+                  | Apply Filters
+
+    // Main content
+    .row
+      // Personalized recommendations
+      .col-lg-8
+        // For You section
+        .card.shadow-sm.border-0.mb-4
+          .card-header.bg-success.text-white.py-3
+            h4.mb-0
+              i.fas.fa-thumbs-up.me-2
+              | Recommended For You
+              small.ms-2.text-white-50 Based on your preferences
+          
+          .card-body.p-0
+            if personalizedRecommendations && personalizedRecommendations.length > 0
+              .row.g-0
+                each recommendation, index in personalizedRecommendations
+                  .col-md-6.col-lg-4
+                    .food-card.p-3.border-bottom.border-end
+                      .d-flex.align-items-center.mb-2
+                        .food-image.me-3
+                          if recommendation.image
+                            img.rounded(src=recommendation.image, alt=recommendation.title, width="70", height="70", style="object-fit: cover;")
+                          else
+                            .placeholder-image.rounded.bg-light.d-flex.align-items-center.justify-content-center(style="width: 70px; height: 70px;")
+                              i.fas.fa-utensils.text-success.fa-2x
+                        .food-info.flex-grow-1
+                          h5.mb-1
+                            a.text-decoration-none.text-dark(href=`/listing/${recommendation.id}`)= recommendation.title
+                          .d-flex.align-items-center.mb-1
+                            i.fas.fa-user.text-muted.me-1
+                            small.text-muted= recommendation.provider
+                            .ms-auto
+                              .badge.bg-success.rounded-pill
+                                i.fas.fa-star.me-1
+                                | #{recommendation.providerRating}
+                      
+                      .food-details.mb-2
+                        .row.g-2
+                          .col-6
+                            .detail-item
+                              i.fas.fa-map-marker-alt.text-success.me-1
+                              small #{recommendation.distance || '2.3'} km away
+                          .col-6
+                            .detail-item
+                              i.fas.fa-clock.text-success.me-1
+                              small Expires in #{recommendation.expiryDays || '3'} days
+                      
+                      .match-details.d-flex.align-items-center.justify-content-between
+                        .match-score
+                          .progress(style="height: 8px; width: 100px;")
+                            .progress-bar.bg-success(role="progressbar" style=`width: ${recommendation.matchScore || 85}%` aria-valuenow=recommendation.matchScore aria-valuemin="0" aria-valuemax="100")
+                          small.text-muted #{recommendation.matchScore || 85}% match
+                        
+                        a.btn.btn-sm.btn-outline-success(href=`/listing/${recommendation.id}`)
+                          i.fas.fa-arrow-right
+            else
+              .p-5.text-center
+                i.fas.fa-search.text-muted.fa-3x.mb-3
+                h5.mb-2 No recommendations found
+                p.text-muted Try adjusting your filters or preferences
+        
+        // Collaborative recommendations
+        .card.shadow-sm.border-0.mb-4
+          .card-header.bg-light.py-3
+            h4.mb-0
+              i.fas.fa-users.me-2
+              | People Like You Also Liked
+          
+          .card-body
+            if collaborativeRecommendations && collaborativeRecommendations.length > 0
+              .row.g-3
+                each recommendation in collaborativeRecommendations
+                  .col-md-6
+                    .card.h-100.border-0.shadow-sm
+                      if recommendation.image
+                        img.card-img-top(src=recommendation.image, alt=recommendation.title, style="height: 150px; object-fit: cover;")
+                      else
+                        .card-img-top.bg-light.d-flex.align-items-center.justify-content-center(style="height: 150px;")
+                          i.fas.fa-utensils.text-success.fa-3x
+                      
+                      .card-body
+                        h5.card-title= recommendation.title
+                        p.card-text.text-muted.small= recommendation.description
+                        
+                        .d-flex.justify-content-between.align-items-center.mt-3
+                          .user-info.d-flex.align-items-center
+                            i.fas.fa-user-circle.text-success.me-1
+                            small= recommendation.provider
+                          
+                          a.btn.btn-sm.btn-success(href=`/listing/${recommendation.id}`)
+                            i.fas.fa-arrow-right.me-1
+                            | View
+            else
+              .p-4.text-center
+                i.fas.fa-users.text-muted.fa-2x.mb-3
+                p.text-muted No collaborative recommendations available yet
+      
+      // Sidebar
+      .col-lg-4
+        // Nearby listings
+        .card.shadow-sm.border-0.mb-4
+          .card-header.bg-light.py-3
+            h4.mb-0
+              i.fas.fa-map-marker-alt.me-2
+              | Nearby Food
+          
+          .card-body.p-0
+            if nearbyListings && nearbyListings.length > 0
+              .list-group.list-group-flush
+                each listing in nearbyListings
+                  a.list-group-item.list-group-item-action(href=`/listing/${listing.id}`)
+                    .d-flex.align-items-center
+                      if listing.imageUrl
+                        img.rounded.me-3(src=listing.imageUrl, alt=listing.title, width="50", height="50", style="object-fit: cover;")
+                      else
+                        .placeholder-image.rounded.bg-light.d-flex.align-items-center.justify-content-center.me-3(style="width: 50px; height: 50px;")
+                          i.fas.fa-utensils.text-success
+                      
+                      .listing-info.flex-grow-1
+                        h6.mb-0= listing.title
+                        .d-flex.justify-content-between.align-items-center
+                          small.text-muted
+                            i.fas.fa-map-marker-alt.me-1
+                            | #{listing.distance && listing.distance.text ? listing.distance.text : (listing.distance || '1.2 km')}
+                          small.text-success #{listing.freshness || 'Fresh'}
+            else
+              .p-4.text-center
+                i.fas.fa-map-pin.text-muted.fa-2x.mb-3
+                p.text-muted No nearby food listings found
+        
+        // Weather and pickup times
+        .card.shadow-sm.border-0.mb-4
+          .card-header.bg-light.py-3
+            h4.mb-0
+              i.fas.fa-cloud-sun.me-2
+              | Optimal Pickup Times
+          
+          .card-body
+            if weather
+              .current-weather.mb-3
+                .d-flex.align-items-center
+                  if weather.icon
+                    i(class=`${weather.icon} fa-2x text-success me-3`)
+                  else
+                    i.fas.fa-temperature-high.fa-2x.text-success.me-3
+                  .weather-info
+                    h5.mb-0 #{weather.temperature || weather.temperature + '°C' || 'N/A'}
+                    p.mb-0.text-muted #{weather.condition || weather.description || 'Current weather'}
+              
+              .weather-forecast
+                h6.mb-3 Recommended Pickup Times:
+                .list-group.list-group-flush
+                  if weather.suggestedTimeSlots && weather.suggestedTimeSlots.length > 0
+                    each slot in weather.suggestedTimeSlots
+                      .list-group-item.border-0.px-0
+                        .d-flex.justify-content-between.align-items-center
+                          .day-info
+                            strong= slot.label || 'Today'
+                            p.mb-0.text-muted Optimal pickup time
+                          .weather-rating
+                            - var n = 0
+                            while n < (slot.score || 3)
+                              i.fas.fa-star.text-warning.small.me-1
+                              - n++
+                  else
+                    .list-group-item.border-0.px-0
+                      .d-flex.justify-content-between.align-items-center
+                        .day-info
+                          strong Today
+                          p.mb-0.text-muted 4:00 PM - 6:00 PM
+                        .weather-icon
+                          i.fas.fa-sun.text-warning
+                    
+                    .list-group-item.border-0.px-0
+                      .d-flex.justify-content-between.align-items-center
+                        .day-info
+                          strong Tomorrow
+                          p.mb-0.text-muted 10:00 AM - 12:00 PM
+                        .weather-icon
+                          i.fas.fa-cloud-sun.text-primary
+            else
+              .p-3.text-center
+                i.fas.fa-cloud.text-muted.fa-2x.mb-3
+                p.text-muted Weather data not available
+                small Enable location services for weather-based recommendations
+        
+        // Your preferences
+        .card.shadow-sm.border-0
+          .card-header.bg-light.py-3
+            h4.mb-0
+              i.fas.fa-sliders-h.me-2
+              | Your Preferences
+          
+          .card-body
+            h6 Dietary Preferences
+            .mb-3
+              if user.dietaryPreferences && user.dietaryPreferences.length > 0
+                each preference in user.dietaryPreferences
+                  span.badge.bg-success.me-2.mb-2= preference
+              else
+                p.text-muted.small No dietary preferences set
+            
+            h6 Food Categories
+            .mb-3
+              if user.categoryPreferences && user.categoryPreferences.length > 0
+                each category in user.categoryPreferences
+                  span.badge.bg-secondary.me-2.mb-2= category
+              else
+                p.text-muted.small No category preferences set
+            
+            h6 Distance Preference
+            .mb-3
+              span.badge.bg-light.text-dark.border Within 5 km
+            
+            .text-center.mt-4
+              a.btn.btn-outline-success.btn-sm(href="/settings")
+                i.fas.fa-cog.me-2
+                | Update Preferences
+
+block scripts
+  script.
+    // Initialize filter form
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get filter values
+      const distance = document.getElementById('distance').value;
+      const category = document.getElementById('category').value;
+      const dietary = document.getElementById('dietary').value;
+      const sortBy = document.getElementById('sortBy').value;
+      
+      // In a real implementation, you would send these filters to the server
+      // and reload the recommendations
+      
+      // For demo purposes, show a loading state and then refresh the page
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalText = submitButton.innerHTML;
+      
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Updating...';
+      
+      setTimeout(() => {
+        // Refresh the page with query parameters
+        const url = new URL(window.location.href);
+        url.searchParams.set('distance', distance);
+        url.searchParams.set('category', category);
+        url.searchParams.set('dietary', dietary);
+        url.searchParams.set('sortBy', sortBy);
+        
+        window.location.href = url.toString();
+      }, 1000);
+    });

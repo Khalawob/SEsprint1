@@ -1,0 +1,90 @@
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          li.nav-item
+            a.nav-link.btn.btn-outline-light.ms-2.active(href='/login') Login
+          li.nav-item
+            a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
+
+  // Login Form Section
+  section.py-5.mt-5
+    .container
+      .row.justify-content-center
+        .col-md-6
+          .card.border-0.shadow-sm
+            .card-header.bg-success.text-white.py-3
+              h3.card-title.mb-0.text-center Login to Your Account
+            .card-body.p-4
+              if error
+                .alert.alert-danger.mb-3= error
+              // Test account information
+              .alert.alert-success.mb-3
+                strong Testing Mode Enabled
+                p.mb-0 You can log in with any email and password combination.
+              form(action='/login' method='POST')
+                .mb-3
+                  label.form-label(for='email') Email Address
+                  input#email.form-control(type='email' name='email' required)
+                .mb-3
+                  label.form-label(for='password') Password
+                  input#password.form-control(type='password' name='password' required)
+                .mb-3.form-check
+                  input#remember.form-check-input(type='checkbox' name='remember')
+                  label.form-check-label(for='remember') Remember me
+                .d-grid.gap-2
+                  button.btn.btn-success.btn-lg(type='submit') Login
+                  
+              .text-center.mt-3
+                p.mb-0 Don't have an account? 
+                  a.text-success(href='/signup') Sign up here
+                p.mt-2
+                  a.text-muted.small(href='#') Forgot your password?
+
+  // Footer
+  footer.bg-dark.text-white.py-4.mt-5
+    .container
+      .row
+        .col-md-4.mb-3
+          h5 Minimise Food Waste
+          p.small A community-driven platform to reduce food waste and help those in need.
+        
+        .col-md-4.mb-3
+          h5 Quick Links
+          ul.list-unstyled
+            li
+              a.text-decoration-none.text-white-50(href='/listing') Browse Food
+            li
+              a.text-decoration-none.text-white-50(href='/userlist') Community
+            li
+              a.text-decoration-none.text-white-50(href='/about') About Us
+        
+        .col-md-4.mb-3
+          h5 Connect With Us
+          .d-flex.gap-2
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-facebook
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-twitter
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-instagram
+      
+      hr.my-4
+      .row
+        .col-12.text-center
+          p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.

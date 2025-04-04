@@ -1,14 +1,197 @@
-html
-  head
-    title Minimize Food Waste - Listing Page
-  body
-    h1 Minimize Food Waste - Tips and Ideas
-    p Here are some tips and resources to help you reduce food waste.
+extends layout
 
-    ul
-      li Tip 1 - Plan your meals and make a shopping list to avoid buying unnecessary items.
-      li Tip 2 - Store food properly to extend its shelf life.
-      li Tip 3 - Use leftovers creatively to create new meals.
-      li Tip 4 - Compost food scraps instead of throwing them away.
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link.active(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          if user && user.isLoggedIn
+            li.nav-item
+              a.nav-link(href='/userprofile') My Profile
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/logout') Logout
+          else
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+            li.nav-item
+              a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
 
-    p Explore these tips and start making small changes to reduce food waste in your life.
+  // Page Header
+  .container.mt-5.pt-4
+    .row.py-4
+      .col-md-8
+        h1.display-5.fw-bold Browse Available Food
+        p.lead Find and request food items in your area to help reduce waste
+      .col-md-4.text-end.align-self-center
+        button.btn.btn-outline-success.me-2(type='button' data-bs-toggle='collapse' data-bs-target='#filterCollapse')
+          i.fas.fa-filter.me-2
+          | Filters
+        a.btn.btn-success(href='/tag')
+          i.fas.fa-plus.me-2
+          | Add Listing
+
+  // Filters Section
+  .container.mb-4
+    #filterCollapse.collapse
+      .card.border-0.shadow-sm
+        .card-body.bg-light.p-4
+          form(action='/listing' method='GET')
+            .row.g-3
+              .col-md-3
+                label.form-label(for='category') Category
+                select#category.form-select(name='category')
+                  option(value='' selected= !filters || !filters.category) All Categories
+                  each category in categories || []
+                    option(value=category selected= filters && filters.category === category)= category
+              
+              .col-md-3
+                label.form-label(for='dietary') Dietary Preference
+                select#dietary.form-select(name='dietary')
+                  option(value='' selected= !filters || !filters.dietary) All Diets
+                  each diet in dietaryOptions || []
+                    option(value=diet selected= filters && filters.dietary === diet)= diet
+              
+              .col-md-3
+                label.form-label(for='distance') Max Distance
+                select#distance.form-select(name='distance')
+                  option(value='' selected= !filters || !filters.distance) Any Distance
+                  option(value='1' selected= filters && filters.distance === '1') Within 1 mile
+                  option(value='3' selected= filters && filters.distance === '3') Within 3 miles
+                  option(value='5' selected= filters && filters.distance === '5') Within 5 miles
+                  option(value='10' selected= filters && filters.distance === '10') Within 10 miles
+              
+              .col-md-3
+                label.form-label Organic Only
+                .form-check.mt-2
+                  input#organic.form-check-input(type='checkbox' name='organic' value='true' checked=filters && filters.organic)
+                  label.form-check-label(for='organic') Show only organic items
+            
+            .d-flex.justify-content-end.mt-3
+              button.btn.btn-secondary.me-2(type='reset') Clear
+              button.btn.btn-success(type='submit') Apply Filters
+
+  // Food Listings Section
+  .container.mb-5
+    if listings && listings.length > 0
+      .row.mb-4
+        .col-12
+          p.text-muted Showing #{listings.length} items
+      
+      .row.g-4
+        each item in listings
+          .col-md-6.col-lg-4
+            .card.h-100.border-0.shadow-sm.food-item
+              .card-img-top.bg-light.py-3.text-center
+                if item.category === 'Fruits'
+                  i.fas.fa-apple-alt.fa-4x.text-success
+                else if item.category === 'Vegetables'
+                  i.fas.fa-carrot.fa-4x.text-success
+                else if item.category === 'Baked Goods'
+                  i.fas.fa-bread-slice.fa-4x.text-success
+                else if item.category === 'Dairy'
+                  i.fas.fa-cheese.fa-4x.text-success
+                else if item.category === 'Desserts'
+                  i.fas.fa-birthday-cake.fa-4x.text-success
+                else if item.category === 'Canned Goods'
+                  i.fas.fa-utensils.fa-4x.text-success
+                else if item.category === 'Cooked Meals'
+                  i.fas.fa-drumstick-bite.fa-4x.text-success
+                else
+                  i.fas.fa-shopping-basket.fa-4x.text-success
+              
+              .card-body
+                .d-flex.justify-content-between.align-items-start.mb-2
+                  span.badge.bg-success.mb-2= item.category
+                  if item.organic
+                    span.badge.bg-info.text-dark Organic
+                
+                h3.h5.card-title= item.title
+                p.card-text= item.description
+                
+                .food-details.mt-3
+                  .row.g-2
+                    .col-6
+                      small.text-muted
+                        i.fas.fa-box.me-1
+                        | Quantity: 
+                        strong #{item.quantity} #{item.unit}
+                    .col-6
+                      small.text-muted
+                        i.fas.fa-calendar-alt.me-1
+                        | Expires: 
+                        strong #{item.expiryDate}
+                  .row.g-2.mt-1
+                    .col-6
+                      small.text-muted
+                        i.fas.fa-map-marker-alt.me-1
+                        | #{item.distance} miles away
+                    .col-6
+                      small.text-muted
+                        i.fas.fa-user.me-1
+                        | By: #{item.postedBy}
+                
+                .mt-3
+                  if item.allergens !== 'None'
+                    p.small.text-danger
+                      i.fas.fa-exclamation-circle.me-1
+                      | Allergens: #{item.allergens}
+                  
+                  p.small.text-muted
+                    i.fas.fa-leaf.me-1
+                    | #{item.dietaryInfo}
+              
+              .card-footer.bg-white.border-0.pt-0
+                a.btn.btn-sm.btn-outline-success.w-100(href=`/detailed/${item.id}`) View Details
+    else
+      .row
+        .col-12.text-center.py-5
+          i.fas.fa-search.fa-4x.text-muted.mb-3
+          h3.text-muted No food items found
+          p Try adjusting your filters or check back later for new listings.
+          a.btn.btn-success.mt-3(href='/listing') Clear Filters
+
+  // Tips Section
+  .container.mb-5.py-4
+    .card.border-0.shadow-sm
+      .card-body.p-4
+        h2.h4.mb-3 Tips to Minimize Food Waste
+        p Here are some tips and resources to help you reduce food waste.
+        .row.mt-3
+          .col-md-6
+            ul.list-group.list-group-flush
+              li.list-group-item.bg-transparent
+                i.fas.fa-check-circle.text-success.me-2
+                | Plan your meals and make a shopping list to avoid buying unnecessary items.
+              li.list-group-item.bg-transparent
+                i.fas.fa-check-circle.text-success.me-2
+                | Store food properly to extend its shelf life.
+          .col-md-6
+            ul.list-group.list-group-flush
+              li.list-group-item.bg-transparent
+                i.fas.fa-check-circle.text-success.me-2
+                | Use leftovers creatively to create new meals.
+              li.list-group-item.bg-transparent
+                i.fas.fa-check-circle.text-success.me-2
+                | Compost food scraps instead of throwing them away.
+
+block scripts
+  script.
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+    });

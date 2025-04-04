@@ -1,0 +1,110 @@
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          li.nav-item
+            a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+          li.nav-item
+            a.nav-link.btn.btn-light.text-success.ms-2.active(href='/signup') Sign Up
+
+  // Signup Form Section
+  section.py-5.mt-5
+    .container
+      .row.justify-content-center
+        .col-md-8
+          .card.border-0.shadow-sm
+            .card-header.bg-success.text-white.py-3
+              h3.card-title.mb-0.text-center Create Your Account
+            .card-body.p-4
+              if error
+                .alert.alert-danger.mb-3= error
+              .alert.alert-success.mb-3
+                strong Testing Mode Enabled
+                p.mb-0 You can sign up with any information. All fields will be accepted.
+              form(action='/signup' method='POST')
+                .row
+                  .col-md-6.mb-3
+                    label.form-label(for='firstName') First Name
+                    input#firstName.form-control(type='text' name='firstName' required)
+                  .col-md-6.mb-3
+                    label.form-label(for='lastName') Last Name
+                    input#lastName.form-control(type='text' name='lastName' required)
+                
+                .mb-3
+                  label.form-label(for='email') Email Address
+                  input#email.form-control(type='email' name='email' required)
+                  .form-text.text-muted We'll never share your email with anyone else.
+                
+                .mb-3
+                  label.form-label(for='location') Location
+                  input#location.form-control(type='text' name='location' required)
+                  .form-text.text-muted Enter your city or neighborhood
+                
+                .row
+                  .col-md-6.mb-3
+                    label.form-label(for='password') Password
+                    input#password.form-control(type='password' name='password' required)
+                  .col-md-6.mb-3
+                    label.form-label(for='confirmPassword') Confirm Password
+                    input#confirmPassword.form-control(type='password' name='confirmPassword' required)
+                
+                .mb-3.form-check
+                  input#terms.form-check-input(type='checkbox' name='terms' required)
+                  label.form-check-label(for='terms') 
+                    | I agree to the 
+                    a.text-success(href='#') Terms and Conditions
+                
+                .d-grid.gap-2
+                  button.btn.btn-success.btn-lg(type='submit') Create Account
+                  
+              .text-center.mt-3
+                p.mb-0 Already have an account? 
+                  a.text-success(href='/login') Login here
+
+  // Footer
+  footer.bg-dark.text-white.py-4.mt-5
+    .container
+      .row
+        .col-md-4.mb-3
+          h5 Minimise Food Waste
+          p.small A community-driven platform to reduce food waste and help those in need.
+        
+        .col-md-4.mb-3
+          h5 Quick Links
+          ul.list-unstyled
+            li
+              a.text-decoration-none.text-white-50(href='/listing') Browse Food
+            li
+              a.text-decoration-none.text-white-50(href='/userlist') Community
+            li
+              a.text-decoration-none.text-white-50(href='/about') About Us
+        
+        .col-md-4.mb-3
+          h5 Connect With Us
+          .d-flex.gap-2
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-facebook
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-twitter
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-instagram
+      
+      hr.my-4
+      .row
+        .col-12.text-center
+          p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.

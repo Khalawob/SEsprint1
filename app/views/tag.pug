@@ -1,49 +1,571 @@
 doctype html
-html
+html(lang="en")
   head
-    title Tag Your Food Item
-    link(rel="stylesheet", href="/css/styles.css")
-    script(src="/js/main.js")
-  body
-    .container
-      h1 Tag Your Food Item
-      p Please provide details about the food item you wish to share. This helps in categorizing and ensuring it reaches those who need it most.
+    title Tag Your Food Item | Minimise Food Waste
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="Tag and share your food items to reduce waste and help your community")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css")
+    link(rel="stylesheet" href="/css/styles.css")
+  body.bg-light
+    // Navigation Bar
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+      .container
+        a.navbar-brand(href='/')
+          i.fas.fa-seedling.me-2
+          | Minimise Food Waste
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+          span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          ul.navbar-nav.ms-auto
+            li.nav-item
+              a.nav-link(href='/listing') Browse Food
+            li.nav-item
+              a.nav-link(href='/userlist') Community
+            li.nav-item
+              a.nav-link.active(href='/tag') Share Food
+            li.nav-item
+              a.nav-link(href='/about') About Us
+    
+    // Main Content
+    .container.mt-5.pt-5
+      .row.justify-content-center
+        .col-lg-8
+          .card.shadow-lg.border-0.rounded-lg.mb-5
+            .card-header.bg-success.text-white
+              h2.text-center.my-2
+                i.fas.fa-tag.me-2
+                | Tag Your Food Item
+            .card-body
+              // Progress Bar
+              .progress.mb-4(style="height: 25px;")
+                .progress-bar.bg-success.progress-bar-striped.progress-bar-animated#formProgress(role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100") 0%
+              
+              // Form Tabs
+              ul.nav.nav-tabs.mb-4#formTabs(role="tablist")
+                li.nav-item(role="presentation")
+                  button.nav-link.active#basics-tab(data-bs-toggle="tab" data-bs-target="#basics" type="button" role="tab" aria-controls="basics" aria-selected="true")
+                    i.fas.fa-info-circle.me-2
+                    | Basic Info
+                li.nav-item(role="presentation")
+                  button.nav-link#details-tab(data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false")
+                    i.fas.fa-list-ul.me-2
+                    | Details
+                li.nav-item(role="presentation")
+                  button.nav-link#photos-tab(data-bs-toggle="tab" data-bs-target="#photos" type="button" role="tab" aria-controls="photos" aria-selected="false")
+                    i.fas.fa-camera.me-2
+                    | Photos
+                li.nav-item(role="presentation")
+                  button.nav-link#location-tab(data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab" aria-controls="location" aria-selected="false")
+                    i.fas.fa-map-marker-alt.me-2
+                    | Location
+              
+              form#tagForm.needs-validation(action="/submit-tag" method="post" novalidate)
+                .tab-content
+                  // Basic Info Tab
+                  .tab-pane.fade.show.active#basics(role="tabpanel" aria-labelledby="basics-tab")
+                    .mb-4
+                      label.form-label(for="foodName") 
+                        i.fas.fa-utensils.me-2
+                        | Food Name
+                        span.text-danger *
+                      input#foodName.form-control.form-control-lg(type="text" name="foodName" required data-bs-toggle="tooltip" data-bs-placement="right" title="Enter the name of your food item")
+                      .invalid-feedback Please provide a food name.
+                      .form-text We recommend being specific (e.g., "Organic Red Apples" rather than just "Apples")
+                    
+                    .row.mb-4
+                      .col-md-6
+                        label.form-label(for="category")
+                          i.fas.fa-folder.me-2
+                          | Category
+                          span.text-danger *
+                        select#category.form-select.form-select-lg(name="category" required onchange="updateSubcategories()")
+                          option(value="" selected disabled) Select Category
+                          option(value="fruits") Fruits
+                          option(value="vegetables") Vegetables
+                          option(value="dairy") Dairy Products
+                          option(value="bakery") Bakery Items
+                          option(value="pantry") Pantry Items
+                          option(value="prepared") Prepared Meals
+                          option(value="other") Other
+                        .invalid-feedback Please select a category.
+                      
+                      .col-md-6
+                        label.form-label(for="subcategory")
+                          i.fas.fa-tag.me-2
+                          | Subcategory
+                          span.text-danger *
+                        select#subcategory.form-select.form-select-lg(name="subcategory" required)
+                          option(value="" selected disabled) Select Category First
+                        .invalid-feedback Please select a subcategory.
+                    
+                    .d-flex.justify-content-end.mt-4
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="details-tab")
+                        | Next: Details
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Details Tab
+                  .tab-pane.fade#details(role="tabpanel" aria-labelledby="details-tab")
+                    .row.mb-4
+                      .col-md-6
+                        label.form-label(for="quantity")
+                          i.fas.fa-balance-scale.me-2
+                          | Quantity
+                          span.text-danger *
+                        .input-group
+                          input#quantity.form-control.form-control-lg(type="number" name="quantity" min="1" required)
+                          select#quantityUnit.form-select.form-select-lg(name="quantityUnit" required)
+                            option(value="items") Items
+                            option(value="kg") Kilograms
+                            option(value="g") Grams
+                            option(value="l") Liters
+                            option(value="ml") Milliliters
+                        .invalid-feedback Please specify the quantity.
+                      
+                      .col-md-6
+                        label.form-label(for="condition")
+                          i.fas.fa-thermometer-half.me-2
+                          | Condition
+                          span.text-danger *
+                        select#condition.form-select.form-select-lg(name="condition" required)
+                          option(value="" selected disabled) Select Condition
+                          option(value="fresh") Fresh
+                          option(value="goodCondition") Good Condition
+                          option(value="nearExpiry") Near Expiry Date
+                          option(value="expired") Expired (Still Safe)
+                        .invalid-feedback Please select the condition.
+                    
+                    .mb-4
+                      label.form-label(for="expiryDate")
+                        i.fas.fa-calendar-alt.me-2
+                        | Expiry Date
+                      input#expiryDate.form-control.form-control-lg(type="text" name="expiryDate" placeholder="Select date...")
+                      .form-text If applicable, select the expiry date of the food item
+                    
+                    .mb-4
+                      label.form-label(for="description")
+                        i.fas.fa-align-left.me-2
+                        | Description
+                        span.text-danger *
+                      textarea#description.form-control(name="description" rows="4" required)
+                      .invalid-feedback Please provide a description.
+                      .form-text Include details like brand, ingredients, dietary information (vegan, gluten-free, etc.)
+                    
+                    .mb-4
+                      label.form-label Dietary Information
+                      .row
+                        .col-md-4
+                          .form-check.mb-2
+                            input#vegetarian.form-check-input(type="checkbox" name="dietary" value="vegetarian")
+                            label.form-check-label(for="vegetarian") Vegetarian
+                        .col-md-4
+                          .form-check.mb-2
+                            input#vegan.form-check-input(type="checkbox" name="dietary" value="vegan")
+                            label.form-check-label(for="vegan") Vegan
+                        .col-md-4
+                          .form-check.mb-2
+                            input#glutenFree.form-check-input(type="checkbox" name="dietary" value="glutenFree")
+                            label.form-check-label(for="glutenFree") Gluten-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#dairyFree.form-check-input(type="checkbox" name="dietary" value="dairyFree")
+                            label.form-check-label(for="dairyFree") Dairy-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#nutFree.form-check-input(type="checkbox" name="dietary" value="nutFree")
+                            label.form-check-label(for="nutFree") Nut-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#organic.form-check-input(type="checkbox" name="dietary" value="organic")
+                            label.form-check-label(for="organic") Organic
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="basics-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="photos-tab")
+                        | Next: Photos
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Photos Tab
+                  .tab-pane.fade#photos(role="tabpanel" aria-labelledby="photos-tab")
+                    .mb-4
+                      label.form-label
+                        i.fas.fa-image.me-2
+                        | Food Photos
+                        span.text-muted  (Recommended)
+                      .dropzone#photoDropzone
+                        .dz-message.needsclick
+                          i.fas.fa-cloud-upload-alt.fa-3x.mb-3
+                          h4 Drop files here or click to upload
+                          span.text-muted Upload up to 5 photos of your food item
+                    
+                    .alert.alert-info.d-flex.align-items-center.mb-4
+                      i.fas.fa-lightbulb.fa-2x.me-3
+                      div
+                        strong Tip:
+                        |  Clear, well-lit photos from multiple angles help others understand what you're sharing.
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="details-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="location-tab")
+                        | Next: Location
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Location Tab
+                  .tab-pane.fade#location(role="tabpanel" aria-labelledby="location-tab")
+                    .mb-4
+                      label.form-label(for="pickupOption")
+                        i.fas.fa-exchange-alt.me-2
+                        | Pickup Options
+                        span.text-danger *
+                      select#pickupOption.form-select.form-select-lg(name="pickupOption" required onchange="togglePickupDetails()")
+                        option(value="" selected disabled) Select Pickup Option
+                        option(value="address") Pickup from my address
+                        option(value="publicLocation") Pickup at public location
+                        option(value="delivery") I can deliver
+                      .invalid-feedback Please select a pickup option.
+                    
+                    #addressDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="address") Your Address
+                        input#address.form-control(type="text" name="address" placeholder="Enter your full address")
+                        .form-text This will only be shared with confirmed recipients
+                    
+                    #publicLocationDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="publicLocation") Public Location
+                        input#publicLocation.form-control(type="text" name="publicLocation" placeholder="e.g., Local Library, Community Center")
+                      
+                      .mb-4
+                        label.form-label(for="locationNotes") Location Notes
+                        textarea#locationNotes.form-control(name="locationNotes" rows="2" placeholder="Any details about the meeting point...")
+                    
+                    #deliveryDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="deliveryRadius") Delivery Radius (miles)
+                        input#deliveryRadius.form-control(type="number" name="deliveryRadius" min="1" max="20" placeholder="How far you're willing to deliver")
+                    
+                    .mb-4
+                      label.form-label(for="availabilityDates")
+                        i.fas.fa-calendar-week.me-2
+                        | Availability Dates
+                        span.text-danger *
+                      input#availabilityDates.form-control(type="text" name="availabilityDates" required)
+                      .invalid-feedback Please specify when the item is available.
+                    
+                    .mb-4
+                      label.form-label(for="availabilityTime")
+                        i.fas.fa-clock.me-2
+                        | Preferred Pickup Times
+                        span.text-danger *
+                      select#availabilityTime.form-select.form-select-lg(name="availabilityTime" required multiple)
+                        option(value="morning") Morning (8am - 12pm)
+                        option(value="afternoon") Afternoon (12pm - 5pm)
+                        option(value="evening") Evening (5pm - 9pm)
+                      .invalid-feedback Please select preferred pickup times.
+                    
+                    .mb-4
+                      label.form-label Contact Preferences
+                      .form-check.mb-2
+                        input#contactApp.form-check-input(type="checkbox" name="contactPreference" value="app" checked)
+                        label.form-check-label(for="contactApp") In-app messaging
+                      .form-check.mb-2
+                        input#contactEmail.form-check-input(type="checkbox" name="contactPreference" value="email")
+                        label.form-check-label(for="contactEmail") Email
+                      .form-check.mb-2
+                        input#contactPhone.form-check-input(type="checkbox" name="contactPreference" value="phone")
+                        label.form-check-label(for="contactPhone") Phone
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="photos-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg(type="submit")
+                        i.fas.fa-paper-plane.me-2
+                        | Submit Food Item
+            
+            .card-footer.text-center.py-3
+              .text-muted
+                i.fas.fa-heart.text-danger.me-1
+                | Thank you for helping reduce food waste in our community!
       
-      form#tagForm(action="/submit-tag", method="post")
-        .form-group
-          label(for="foodName") Food Name:
-          input#foodName(type="text", name="foodName", required=true, aria-describedby="foodNameHelp")
-          small#foodNameHelp.hidden Food name must be at least 3 characters.
+      // Environmental Impact
+      .row.justify-content-center.mb-5
+        .col-lg-8
+          .card.border-0.shadow-sm
+            .card-body
+              h3.text-center.mb-4
+                i.fas.fa-leaf.text-success.me-2
+                | Your Environmental Impact
+              p.text-center By sharing food items instead of throwing them away, you're making a real difference:
+              .row.text-center.g-4
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-cloud.fa-3x.text-info.mb-3
+                    h4.counter(data-target="2.5") 0
+                    p.text-muted kg CO₂ emissions saved per food item shared
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-tint.fa-3x.text-primary.mb-3
+                    h4.counter(data-target="1000") 0
+                    p.text-muted liters of water saved per kg of food
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-bolt.fa-3x.text-warning.mb-3
+                    h4.counter(data-target="4.5") 0
+                    p.text-muted kWh energy saved per food item
+    
+    // Footer
+    footer.bg-dark.text-white.py-4.mt-auto
+      .container
+        .row
+          .col-md-4.mb-4.mb-md-0
+            h5
+              i.fas.fa-seedling.me-2
+              | Minimise Food Waste
+            p.small A community-driven platform to reduce food waste and build sustainable communities.
+          .col-md-4.mb-4.mb-md-0
+            h5 Quick Links
+            ul.list-unstyled
+              li
+                a.text-white.text-decoration-none(href="/") Home
+              li
+                a.text-white.text-decoration-none(href="/listing") Browse Food
+              li
+                a.text-white.text-decoration-none(href="/userlist") Community
+              li
+                a.text-white.text-decoration-none(href="/about") About Us
+          .col-md-4
+            h5 Contact Us
+            ul.list-unstyled
+              li
+                i.fas.fa-envelope.me-2
+                | info@minimisefoodwaste.org
+              li
+                i.fas.fa-phone.me-2
+                | +44 123 456 7890
+        hr.my-3
+        .row
+          .col-md-6.text-center.text-md-start
+            p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.
+          .col-md-6.text-center.text-md-end
+            a.text-white.me-2(href="#")
+              i.fab.fa-facebook-f
+            a.text-white.me-2(href="#")
+              i.fab.fa-twitter
+            a.text-white.me-2(href="#")
+              i.fab.fa-instagram
+            a.text-white(href="#")
+              i.fab.fa-linkedin-in
+    
+    // Modal for Success
+    #successModal.modal.fade(tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true")
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header.bg-success.text-white
+            h5#successModalLabel.modal-title
+              i.fas.fa-check-circle.me-2
+              | Success!
+            button.btn-close.btn-close-white(type="button" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body.text-center.py-4
+            i.fas.fa-leaf.fa-5x.text-success.mb-3
+            h4.mb-3 Your food item has been successfully tagged!
+            p.mb-0 Thank you for helping reduce food waste in our community.
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            a.btn.btn-success(href="/listing")
+              i.fas.fa-list.me-2
+              | View Listings
+    
+    // Scripts
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+    script(src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js")
+    script.
+      // Initialize tooltips
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+      
+      // Form validation
+      (() => {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            } else {
+              event.preventDefault()
+              updateProgress(100)
+              $('#successModal').modal('show')
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+      })()
+      
+      // Tab navigation
+      document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', () => {
+          const nextTab = button.getAttribute('data-next')
+          const nextTabEl = document.getElementById(nextTab)
+          const tab = new bootstrap.Tab(nextTabEl)
+          tab.show()
+          updateProgress()
+        })
+      })
+      
+      document.querySelectorAll('.prev-tab').forEach(button => {
+        button.addEventListener('click', () => {
+          const prevTab = button.getAttribute('data-prev')
+          const prevTabEl = document.getElementById(prevTab)
+          const tab = new bootstrap.Tab(prevTabEl)
+          tab.show()
+          updateProgress()
+        })
+      })
+      
+      // Progress bar
+      function updateProgress(override) {
+        const tabs = ['basics-tab', 'details-tab', 'photos-tab', 'location-tab']
+        const activeTab = document.querySelector('.nav-link.active').id
+        const currentIndex = tabs.indexOf(activeTab)
+        const progressPercentage = override || Math.round((currentIndex / (tabs.length - 1)) * 100)
         
-        .form-group
-          label(for="category") Category:
-          select#category(name="category", required=true, onchange="loadSubcategories(this.value)", aria-describedby="categoryHelp")
-            option(value="") Select Category
-            option(value="fruits") Fruits
-            option(value="vegetables") Vegetables
-            option(value="bakedGoods") Baked Goods
-            option(value="others") Others
-          small#categoryHelp.hidden Please select a category.
+        const progressBar = document.getElementById('formProgress')
+        progressBar.style.width = `${progressPercentage}%`
+        progressBar.setAttribute('aria-valuenow', progressPercentage)
+        progressBar.textContent = `${progressPercentage}%`
+      }
+      
+      // Initialize date pickers
+      flatpickr("#expiryDate", {
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today"
+      })
+      
+      flatpickr("#availabilityDates", {
+        mode: "range",
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        maxDate: new Date().fp_incr(30)
+      })
+      
+      // Initialize dropzone
+      Dropzone.autoDiscover = false
+      const myDropzone = new Dropzone("#photoDropzone", {
+        url: "/upload-photos",
+        maxFiles: 5,
+        maxFilesize: 5,
+        acceptedFiles: "image/*",
+        addRemoveLinks: true,
+        dictDefaultMessage: "Drop files here or click to upload",
+        autoProcessQueue: false
+      })
+      
+      // Subcategories
+      const subcategories = {
+        fruits: ["Apples", "Bananas", "Berries", "Citrus", "Stone Fruits", "Tropical", "Other Fruits"],
+        vegetables: ["Leafy Greens", "Root Vegetables", "Squash", "Tomatoes", "Peppers", "Onions", "Potatoes", "Other Vegetables"],
+        dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Other Dairy"],
+        bakery: ["Bread", "Pastries", "Cakes", "Cookies", "Other Baked Goods"],
+        pantry: ["Canned Goods", "Dried Foods", "Grains", "Pasta", "Rice", "Spices", "Other Pantry Items"],
+        prepared: ["Soups", "Salads", "Main Dishes", "Side Dishes", "Desserts", "Other Prepared Foods"],
+        other: ["Beverages", "Snacks", "Condiments", "Baby Food", "Pet Food", "Miscellaneous"]
+      }
+      
+      function updateSubcategories() {
+        const category = document.getElementById('category').value
+        const subcategorySelect = document.getElementById('subcategory')
         
-        .form-group
-          label(for="subcategory") Subcategory:
-          select#subcategory(name="subcategory", required=true, disabled=true, aria-describedby="subcategoryHelp")
-          small#subcategoryHelp.hidden Select a subcategory based on the category selected.
+        // Clear existing options
+        subcategorySelect.innerHTML = ''
         
-        .form-group
-          label(for="condition") Condition:
-          select#condition(name="condition", required=true)
-            option(value="") Select Condition
-            option(value="fresh") Fresh
-            option(value="nearExpiry") Near Expiry
-            option(value="expired") Expired (Non-perishable only)
+        // Add default option
+        const defaultOption = document.createElement('option')
+        defaultOption.value = ''
+        defaultOption.disabled = true
+        defaultOption.selected = true
+        defaultOption.textContent = 'Select Subcategory'
+        subcategorySelect.appendChild(defaultOption)
         
-        .form-group
-          label(for="description") Description:
-          textarea#description(name="description", required=true)
+        // Add subcategories based on selected category
+        if (category && subcategories[category]) {
+          subcategories[category].forEach(sub => {
+            const option = document.createElement('option')
+            option.value = sub.toLowerCase().replace(/\s+/g, '')
+            option.textContent = sub
+            subcategorySelect.appendChild(option)
+          })
+        }
+      }
+      
+      // Toggle pickup details
+      function togglePickupDetails() {
+        const option = document.getElementById('pickupOption').value
         
-        button(type="submit") Tag and Share Food
-
-        .notification
-          span#successMessage.hidden Success! Your item has been tagged.
-          span#errorMessage.hidden Please fill all fields correctly.
+        // Hide all details sections first
+        document.querySelectorAll('.pickup-details').forEach(el => {
+          el.classList.add('d-none')
+        })
+        
+        // Show the selected option's details
+        if (option) {
+          document.getElementById(`${option}Details`).classList.remove('d-none')
+        }
+      }
+      
+      // Counter animation for impact stats
+      const counterElements = document.querySelectorAll('.counter')
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = parseFloat(entry.target.getAttribute('data-target'))
+            const increment = target / 100
+            let current = 0
+            
+            const timer = setInterval(() => {
+              current += increment
+              entry.target.textContent = current.toFixed(1)
+              
+              if (current >= target) {
+                entry.target.textContent = target
+                clearInterval(timer)
+              }
+            }, 20)
+            
+            observer.unobserve(entry.target)
+          }
+        })
+      }, { threshold: 0.5 })
+      
+      counterElements.forEach(counter => {
+        observer.observe(counter)
+      })
+      
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        updateProgress(0)
+        
+        // Initialize select2 for multiple select
+        $('#availabilityTime').select2({
+          placeholder: "Select preferred times",
+          closeOnSelect: false
+        })
+      })

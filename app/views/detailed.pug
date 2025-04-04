@@ -1,21 +1,197 @@
-doctype html
-html
-  head
-    title Detailed View - Minimise Food Waste
-  body
-    header
-      h1 Detailed Listing
-      nav
-        a(href='/') Home
-        |  |  
-        a(href='/listing') Back to Listings
-    main
-      if listing
-        h2= listing.Item_name
-        p Quantity Available: #{listing.Quantity}
-        p Claimed: #{listing.Claimed ? "Yes" : "No"}
-        p Category: #{listing.Category_Name}
-      else
-        p No listing details available.
-    footer
-      p © 2025 Minimise Food Waste
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          if user && user.isLoggedIn
+            li.nav-item
+              a.nav-link(href='/userprofile') My Profile
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/logout') Logout
+          else
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+            li.nav-item
+              a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
+
+  // Breadcrumb Navigation
+  .container.mt-5.pt-5
+    nav(aria-label='breadcrumb')
+      ol.breadcrumb
+        li.breadcrumb-item
+          a(href='/') Home
+        li.breadcrumb-item
+          a(href='/listing') Food Listings
+        li.breadcrumb-item.active(aria-current='page')= item ? item.title : 'Food Details'
+
+  if item
+    // Food Item Details
+    .container.py-4
+      .row
+        // Food Image Column
+        .col-md-5.mb-4
+          .card.border-0.shadow-sm
+            .card-body.p-5.text-center.bg-light
+              if item.category === 'Fruits'
+                i.fas.fa-apple-alt.fa-6x.text-success.mb-4
+              else if item.category === 'Vegetables'
+                i.fas.fa-carrot.fa-6x.text-success.mb-4
+              else if item.category === 'Baked Goods'
+                i.fas.fa-bread-slice.fa-6x.text-success.mb-4
+              else if item.category === 'Dairy'
+                i.fas.fa-cheese.fa-6x.text-success.mb-4
+              else if item.category === 'Desserts'
+                i.fas.fa-birthday-cake.fa-6x.text-success.mb-4
+              else if item.category === 'Canned Goods'
+                i.fas.fa-utensils.fa-6x.text-success.mb-4
+              else if item.category === 'Cooked Meals'
+                i.fas.fa-drumstick-bite.fa-6x.text-success.mb-4
+              else
+                i.fas.fa-shopping-basket.fa-6x.text-success.mb-4
+              
+              .d-flex.justify-content-center.mt-3
+                if item.organic
+                  span.badge.bg-info.text-dark.me-2 Organic
+                if item.verified
+                  span.badge.bg-success Verified
+
+        // Food Details Column
+        .col-md-7
+          h1.mb-3= item.title
+          p.lead.mb-4= item.description
+
+          // Key Details
+          .card.border-0.shadow-sm.mb-4
+            .card-header.bg-success.text-white
+              h3.h5.mb-0 Key Details
+            .card-body
+              .row.g-3
+                .col-md-6
+                  p.mb-1
+                    strong Quantity: 
+                    | #{item.quantity} #{item.unit}
+                .col-md-6
+                  p.mb-1
+                    strong Category: 
+                    | #{item.category}
+                .col-md-6
+                  p.mb-1
+                    strong Condition: 
+                    | #{item.condition}
+                .col-md-6
+                  p.mb-1
+                    strong Expiry Date: 
+                    | #{item.expiryDate}
+                .col-md-6
+                  p.mb-1
+                    strong Posted By: 
+                    | #{item.postedBy}
+                .col-md-6
+                  p.mb-1
+                    strong Posted Date: 
+                    | #{item.postedDate}
+          
+          // Dietary Information
+          .card.border-0.shadow-sm.mb-4
+            .card-header.bg-light
+              h3.h5.mb-0 Dietary Information
+            .card-body
+              .row.g-3
+                .col-md-6
+                  p.mb-1
+                    strong Dietary Info: 
+                    | #{item.dietaryInfo}
+                .col-md-6
+                  p.mb-1
+                    strong Nutritional Value: 
+                    | #{item.nutritionalValue}
+                if item.allergens !== 'None'
+                  .col-12
+                    p.mb-1.text-danger
+                      i.fas.fa-exclamation-circle.me-1
+                      strong Allergens: 
+                      | #{item.allergens}
+          
+          // Location & Pickup
+          .card.border-0.shadow-sm.mb-4
+            .card-header.bg-light
+              h3.h5.mb-0 Location & Pickup
+            .card-body
+              .row.g-3
+                .col-md-6
+                  p.mb-1
+                    strong Location: 
+                    | #{item.location}
+                .col-md-6
+                  p.mb-1
+                    strong Distance: 
+                    | #{item.distance} miles away
+                .col-12
+                  p.mb-1
+                    strong Pickup Times: 
+                    | #{item.pickupTimes}
+                .col-12
+                  p.mb-1
+                    strong Contact Method: 
+                    | #{item.contactMethod}
+          
+          // Action Buttons
+          .d-grid.gap-2.d-md-flex.justify-content-md-start.mt-4
+            button.btn.btn-success.btn-lg
+              i.fas.fa-hand-holding-heart.me-2
+              | Request This Item
+            button.btn.btn-outline-secondary.btn-lg
+              i.fas.fa-comment.me-2
+              | Contact Provider
+    
+    // Similar Items Section
+    .container.py-4.mb-5
+      h2.mb-4 Similar Items
+      .row.g-4
+        - var similarItems = listings && item ? listings.filter(f => f.category === item.category && f.id !== item.id).slice(0, 3) : []
+        if similarItems.length > 0
+          each similarItem in similarItems
+            .col-md-4
+              .card.h-100.border-0.shadow-sm
+                .card-body
+                  h3.h5.card-title= similarItem.title
+                  p.card-text= similarItem.description.substring(0, 60) + '...'
+                  p.small.text-muted
+                    i.fas.fa-map-marker-alt.me-1
+                    | #{similarItem.distance} miles away
+                .card-footer.bg-white.border-0
+                  a.btn.btn-sm.btn-outline-success.w-100(href=`/detailed/${similarItem.id}`) View Details
+        else
+          .col-12.text-center.py-3
+            p.text-muted No similar items found at this time.
+  else
+    // No Item Found
+    .container.py-5.my-5.text-center
+      i.fas.fa-search.fa-4x.text-muted.mb-3
+      h2.mb-3 Food Item Not Found
+      p The food item you're looking for may have been claimed or removed.
+      a.btn.btn-success.mt-3(href='/listing') Browse Available Food
+
+block scripts
+  script.
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+    });

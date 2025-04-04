@@ -24,5 +24,9 @@ services:
     restart: always
     env_file:
       - ./.env
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:80"

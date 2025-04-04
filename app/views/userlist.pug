@@ -1,15 +1,270 @@
-html 
-    head    
-        title Userlist
-    body
-       h1 Userlist 
-       p This is our user list page it show you the list of users from the database and there infomation 
-       h2 Names
-       - console.log(data)
-       .main-content 
-       table(border=1)
-            for item in data 
-                tr  
-                    td #{item.User_ID}
-                    td 
-                        a(href='/student-single/' + item.id) #{item.User_Name}
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link.active(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          if user && user.isLoggedIn
+            li.nav-item
+              a.nav-link(href='/userprofile') My Profile
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/logout') Logout
+          else
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+            li.nav-item
+              a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
+
+  // Page Header
+  .container.mt-5.pt-5
+    .row.py-4
+      .col-md-8
+        h1.display-5.fw-bold Our Community
+        p.lead Connect with like-minded individuals committed to reducing food waste and building a sustainable future.
+      .col-md-4.text-end.align-self-center
+        .input-group
+          input.form-control(type='text' placeholder='Search community members...')
+          button.btn.btn-success(type='button')
+            i.fas.fa-search
+
+  // Community Stats
+  .container.mb-5
+    .card.border-0.shadow-sm
+      .card-body.bg-light.p-4
+        .row.text-center
+          .col-md-3.mb-3.mb-md-0
+            .display-4.fw-bold.text-success #{data.length}
+            p.text-muted.mb-0 Active Members
+          .col-md-3.mb-3.mb-md-0
+            .display-4.fw-bold.text-success 124
+            p.text-muted.mb-0 Food Items Shared
+          .col-md-3.mb-3.mb-md-0
+            .display-4.fw-bold.text-success 87%
+            p.text-muted.mb-0 Successful Exchanges
+          .col-md-3
+            .display-4.fw-bold.text-success 230kg
+            p.text-muted.mb-0 Food Waste Prevented
+
+  // Community Filters
+  .container.mb-4
+    .card.border-0.shadow-sm
+      .card-body.p-3
+        .row.g-2
+          .col-md-3
+            select.form-select(name='location')
+              option(value='') All Locations
+              option(value='London') London
+              option(value='Manchester') Manchester
+              option(value='Birmingham') Birmingham
+              option(value='Leeds') Leeds
+          .col-md-3
+            select.form-select(name='activity')
+              option(value='') All Activity Levels
+              option(value='very-active') Very Active
+              option(value='active') Active
+              option(value='new') New Members
+          .col-md-3
+            select.form-select(name='sort')
+              option(value='name') Sort by Name
+              option(value='location') Sort by Location
+              option(value='joined') Sort by Join Date
+              option(value='contributions') Sort by Contributions
+          .col-md-3
+            button.btn.btn-success.w-100(type='button') Apply Filters
+
+  // Featured Community Members
+  .container.mb-5
+    h2.mb-4 Featured Community Members
+    .row.g-4
+      each item, index in data
+        if index < 3
+          .col-md-4
+            .card.h-100.border-0.shadow-sm.user-card
+              .card-body.text-center
+                .avatar.mb-3
+                  img.rounded-circle.shadow-sm(src=`https://randomuser.me/api/portraits/${index % 2 === 0 ? 'men' : 'women'}/${index + 1}.jpg` alt=item.name width='100' height='100')
+                h3.h5.card-title= item.name
+                p.card-text.text-muted
+                  i.fas.fa-map-marker-alt.me-1
+                  | #{item.location}
+                .badge.bg-success.mb-3 Top Contributor
+                p.small.text-muted Has shared 15 food items and saved approximately 25kg of food waste.
+              .card-footer.bg-white.border-0.d-flex.justify-content-center
+                a.btn.btn-sm.btn-outline-success.me-2(href=`/user-profile/${item.id}`)
+                  i.fas.fa-user.me-1
+                  | View Profile
+                button.btn.btn-sm.btn-outline-secondary
+                  i.fas.fa-comment.me-1
+                  | Message
+
+  // Community Members
+  .container.mb-5
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h2 All Community Members
+      .dropdown
+        button.btn.btn-outline-secondary.dropdown-toggle(type='button' data-bs-toggle='dropdown')
+          i.fas.fa-sort.me-1
+          | Sort By
+        ul.dropdown-menu
+          li
+            a.dropdown-item(href='#') Name (A-Z)
+          li
+            a.dropdown-item(href='#') Location
+          li
+            a.dropdown-item(href='#') Most Active
+          li
+            a.dropdown-item(href='#') Recently Joined
+
+    .row.g-4
+      each item, index in data
+        .col-md-6.col-lg-4
+          .card.border-0.shadow-sm.mb-4
+            .card-body
+              .d-flex.align-items-center.mb-3
+                img.rounded-circle.me-3(src=`https://randomuser.me/api/portraits/${index % 2 === 0 ? 'men' : 'women'}/${(index % 10) + 1}.jpg` alt=item.name width='60' height='60')
+                div
+                  h3.h5.mb-1= item.name
+                  p.small.text-muted.mb-0
+                    i.fas.fa-map-marker-alt.me-1
+                    | #{item.location}
+              
+              .user-stats.d-flex.justify-content-between.mb-3
+                .stat.text-center
+                  .h6.mb-0 12
+                  small.text-muted Shared
+                .stat.text-center
+                  .h6.mb-0 8
+                  small.text-muted Received
+                .stat.text-center
+                  .h6.mb-0 4.8
+                  small.text-muted Rating
+              
+              p.small.mb-3 Passionate about reducing food waste and sharing homegrown vegetables.
+              
+              .d-flex.justify-content-between
+                a.btn.btn-sm.btn-outline-success(href=`/user-profile/${item.id}`) View Profile
+                button.btn.btn-sm.btn-outline-secondary
+                  i.fas.fa-comment.me-1
+                  | Message
+
+  // Community Impact
+  .container.mb-5
+    .card.border-0.shadow-sm.bg-light
+      .card-body.p-4
+        .row.align-items-center
+          .col-md-6.mb-4.mb-md-0
+            h2.h3.mb-3 Our Community Impact
+            p.mb-4 Together, our community members have made a significant impact in reducing food waste and helping those in need.
+            .progress.mb-3(style='height: 25px')
+              .progress-bar.bg-success(role='progressbar' style='width: 75%' aria-valuenow='75' aria-valuemin='0' aria-valuemax='100') 75% Toward 2025 Goal
+            p.small.text-muted Our goal is to prevent 500kg of food waste by the end of 2025. We're well on our way!
+          .col-md-6
+            .card.border-0.shadow-sm
+              .card-body
+                h3.h5.mb-3 Impact Breakdown
+                ul.list-group.list-group-flush
+                  li.list-group-item.bg-transparent.d-flex.justify-content-between.align-items-center
+                    span
+                      i.fas.fa-apple-alt.text-success.me-2
+                      | Fruits & Vegetables
+                    span.badge.bg-success.rounded-pill 45%
+                  li.list-group-item.bg-transparent.d-flex.justify-content-between.align-items-center
+                    span
+                      i.fas.fa-bread-slice.text-success.me-2
+                      | Baked Goods
+                    span.badge.bg-success.rounded-pill 25%
+                  li.list-group-item.bg-transparent.d-flex.justify-content-between.align-items-center
+                    span
+                      i.fas.fa-cheese.text-success.me-2
+                      | Dairy Products
+                    span.badge.bg-success.rounded-pill 15%
+                  li.list-group-item.bg-transparent.d-flex.justify-content-between.align-items-center
+                    span
+                      i.fas.fa-drumstick-bite.text-success.me-2
+                      | Prepared Meals
+                    span.badge.bg-success.rounded-pill 15%
+
+  // Community Events
+  .container.mb-5
+    h2.mb-4 Upcoming Community Events
+    .row.g-4
+      .col-md-4
+        .card.h-100.border-0.shadow-sm
+          .card-body
+            .badge.bg-success.mb-2 Workshop
+            h3.h5.card-title Food Preservation Workshop
+            p.card-text Learn techniques for preserving fruits and vegetables to extend their shelf life.
+            p.small.text-muted
+              i.fas.fa-calendar-alt.me-1
+              | April 15, 2025
+            p.small.text-muted
+              i.fas.fa-map-marker-alt.me-1
+              | Community Center, London
+          .card-footer.bg-white.border-0
+            button.btn.btn-sm.btn-outline-success.w-100 Register
+      
+      .col-md-4
+        .card.h-100.border-0.shadow-sm
+          .card-body
+            .badge.bg-info.text-dark.mb-2 Meetup
+            h3.h5.card-title Community Potluck
+            p.card-text Bring a dish made from food that would otherwise go to waste and share with others.
+            p.small.text-muted
+              i.fas.fa-calendar-alt.me-1
+              | April 22, 2025
+            p.small.text-muted
+              i.fas.fa-map-marker-alt.me-1
+              | Green Park, London
+          .card-footer.bg-white.border-0
+            button.btn.btn-sm.btn-outline-success.w-100 I'm Interested
+      
+      .col-md-4
+        .card.h-100.border-0.shadow-sm
+          .card-body
+            .badge.bg-warning.text-dark.mb-2 Webinar
+            h3.h5.card-title Sustainable Cooking
+            p.card-text Online session on how to create delicious meals from food scraps and leftovers.
+            p.small.text-muted
+              i.fas.fa-calendar-alt.me-1
+              | May 5, 2025
+            p.small.text-muted
+              i.fas.fa-globe.me-1
+              | Online (Zoom)
+          .card-footer.bg-white.border-0
+            button.btn.btn-sm.btn-outline-success.w-100 Register
+
+  // Join Community CTA
+  .container.mb-5
+    .card.border-0.shadow-sm.bg-success.text-white
+      .card-body.p-5.text-center
+        h2.mb-3 Join Our Community Today
+        p.mb-4 Be part of a movement to reduce food waste and build a more sustainable future.
+        if !user || !user.isLoggedIn
+          .d-grid.gap-2.d-md-flex.justify-content-md-center
+            a.btn.btn-light.btn-lg.px-4.me-md-2(href='/signup') Sign Up Now
+            a.btn.btn-outline-light.btn-lg.px-4(href='/login') Login
+        else
+          p.lead You're already part of our community! Thank you for your contribution.
+
+block scripts
+  script.
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+    });

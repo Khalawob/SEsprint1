@@ -1,0 +1,114 @@
+extends layout
+
+block content
+  // Hero Section
+  .hero-section.bg-success.text-white.py-5
+    .container.mt-5
+      .row.align-items-center
+        .col-lg-6.mb-5.mb-lg-0
+          h1.display-4.fw-bold Reduce Food Waste, Build Community
+          p.lead.mb-4 Join our platform to share excess food, connect with neighbors, and make a positive impact on the environment.
+          if !user || !user.isLoggedIn
+            .d-grid.gap-2.d-md-flex.justify-content-md-start
+              a.btn.btn-light.btn-lg.px-4.me-md-2(href='/signup') Sign Up
+              a.btn.btn-outline-light.btn-lg.px-4(href='/login') Login
+          else
+            .d-grid.gap-2.d-md-flex.justify-content-md-start
+              a.btn.btn-light.btn-lg.px-4.me-md-2(href='/listing') Browse Food
+              a.btn.btn-outline-light.btn-lg.px-4(href='/userlist') Community
+        .col-lg-6
+          img.img-fluid.rounded.shadow(src='https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80' alt='People sharing food')
+
+  // Featured Food Listings
+  .container.py-5
+    h2.text-center.mb-5 Featured Food Listings
+    .row.g-4
+      each i in [1, 2, 3]
+        .col-md-4
+          .card.h-100.border-0.shadow-sm
+            if i === 1
+              img.card-img-top(src='https://images.unsplash.com/photo-1576021182211-9ea8dced3690?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60' alt='Fresh Vegetables')
+            else if i === 2
+              img.card-img-top(src='https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60' alt='Homemade Bread')
+            else
+              img.card-img-top(src='https://images.unsplash.com/photo-1563699182-58875fcdd4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60' alt='Fresh Fruits')
+            .card-body
+              if i === 1
+                .badge.bg-success.mb-2 Vegetables
+                h5.card-title Fresh Garden Vegetables
+                p.card-text Organic vegetables from my garden. Available for pickup today.
+              else if i === 2
+                .badge.bg-warning.text-dark.mb-2 Baked Goods
+                h5.card-title Homemade Sourdough Bread
+                p.card-text Freshly baked this morning. Too much for my family.
+              else
+                .badge.bg-info.text-dark.mb-2 Fruits
+                h5.card-title Seasonal Fruit Basket
+                p.card-text Apples, pears, and plums from my orchard. Surplus harvest.
+              .d-flex.justify-content-between.align-items-center.mt-3
+                small.text-muted
+                  i.fas.fa-map-marker-alt.me-1
+                  | 1.2 miles away
+                a.btn.btn-sm.btn-outline-success(href='/listing') View Details
+
+  // Impact Statistics
+  .bg-light.py-5
+    .container
+      h2.text-center.mb-5 Our Impact
+      .row.text-center
+        .col-md-3.mb-4.mb-md-0
+          .display-4.fw-bold.text-success 500+
+          p.text-muted Active Members
+        .col-md-3.mb-4.mb-md-0
+          .display-4.fw-bold.text-success 1,200
+          p.text-muted Food Items Shared
+        .col-md-3.mb-4.mb-md-0
+          .display-4.fw-bold.text-success 85%
+          p.text-muted Successful Exchanges
+        .col-md-3
+          .display-4.fw-bold.text-success 2.5t
+          p.text-muted Food Waste Prevented
+
+  // How It Works
+  .container.py-5
+    h2.text-center.mb-5 How It Works
+    .row.g-4
+      .col-md-4.text-center
+        .rounded-circle.bg-success.text-white.d-inline-flex.justify-content-center.align-items-center.mb-4(style='width: 80px; height: 80px')
+          i.fas.fa-camera.fa-2x
+        h3 1. Share Your Excess Food
+        p Take a photo and list your extra food items on our platform. It's quick and easy.
+      .col-md-4.text-center
+        .rounded-circle.bg-success.text-white.d-inline-flex.justify-content-center.align-items-center.mb-4(style='width: 80px; height: 80px')
+          i.fas.fa-comments.fa-2x
+        h3 2. Connect with Neighbors
+        p Communicate with interested community members through our messaging system.
+      .col-md-4.text-center
+        .rounded-circle.bg-success.text-white.d-inline-flex.justify-content-center.align-items-center.mb-4(style='width: 80px; height: 80px')
+          i.fas.fa-handshake.fa-2x
+        h3 3. Exchange Food
+        p Arrange a pickup or delivery and complete the food exchange. Rate your experience.
+
+  // Call to Action
+  .bg-success.text-white.py-5
+    .container.text-center
+      h2.mb-4 Ready to Reduce Food Waste?
+      p.lead.mb-4 Join our community today and be part of the solution.
+      if !user || !user.isLoggedIn
+        .d-grid.gap-2.d-md-flex.justify-content-md-center
+          a.btn.btn-light.btn-lg.px-4.me-md-2(href='/signup') Sign Up Now
+          a.btn.btn-outline-light.btn-lg.px-4(href='/login') Login
+      else
+        .d-grid.gap-2.d-md-flex.justify-content-md-center
+          a.btn.btn-light.btn-lg.px-4.me-md-2(href='/listing') Browse Food
+          a.btn.btn-outline-light.btn-lg.px-4(href='/userprofile') My Profile
+
+block scripts
+  script.
+    // Initialize tooltips
+    document.addEventListener('DOMContentLoaded', function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      });
+    });

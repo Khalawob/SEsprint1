@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          if user && user.isLoggedIn
+            li.nav-item
+              a.nav-link(href='/userprofile') My Profile
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/logout') Logout
+          else
+            li.nav-item
+              a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+            li.nav-item
+              a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
+
+  // Error Content
+  .container.mt-5.pt-5
+    .row.justify-content-center.py-5
+      .col-md-8.text-center
+        i.fas.fa-exclamation-circle.text-danger.display-1.mb-4
+        h1.display-4.mb-4= title || 'Error'
+        p.lead.mb-4= message || 'Something went wrong. Please try again later.'
+        .d-flex.justify-content-center.gap-3
+          a.btn.btn-success(href='/') Go to Homepage
+          a.btn.btn-outline-success(href='/userlist') Browse Community
