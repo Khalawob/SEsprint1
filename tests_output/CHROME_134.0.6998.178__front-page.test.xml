@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="1">
+
+  <testsuite name="Basic pages" id="front-page.test"
+    errors="0" failures="0" hostname="" package="front-page.test" skipped="0"
+    tests="1" time="1.242" timestamp="">
+  
+    <testcase name="check the front page loads" classname="Basic pages" time="1.240" assertions="1">
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>
