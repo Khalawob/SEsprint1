@@ -3,30 +3,52 @@ name: Nightwatch Test - Front Page Load
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
-  workflow_dispatch:   # Manual trigger for the workflow
+      - main
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Running on the latest Ubuntu environment
+    runs-on: ubuntu-latest
+
+    services:
+      # Start Docker service if it's not running already (GitHub Actions environment)
+      docker:
+        image: docker:19.03.12
+        options: --privileged
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'  # Specify the version of Node.js you want to use
+      # Setup Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
 
-    - name: Install dependencies
-      run: npm install  # Install the necessary packages from your package.json
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Install XVFB (for headless tests)
-      run: sudo apt-get install -y xvfb  # Install xvfb for headless browser testing
+      # Start the web application using Docker Compose
+      - name: Start Application with Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d  # Starts containers in detached mode
+        # Make sure to replace `docker-compose.yml` with the actual file if it's named differently
 
-    - name: Run Nightwatch Tests
-      run: xvfb-run --auto-servernum npm test -- --env chrome  # Run tests using Nightwatch with Chrome
+      # Wait for the web app to be ready (this is optional, but it helps avoid race conditions)
+      - name: Wait for Web Application
+        run: |
+          sleep 10  # Adjust this based on how long your application needs to start
+
+      # Run Nightwatch tests
+      - name: Run Nightwatch Tests
+        run: npm test
+
+      # Optionally, collect test reports (if you have any)
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: nightwatch-report
+          path: tests_output/nightwatch-html-report/index.html
