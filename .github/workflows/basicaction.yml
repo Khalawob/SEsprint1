@@ -19,4 +19,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send message
-      run: echo "The master branch has been updated"
+      run: echo "The master branch has been updated" 
