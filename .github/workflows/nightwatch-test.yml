@@ -4,44 +4,23 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Set up Node.js
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '20'  # Adjust as needed
+          node-version: '14'  # Use your Node.js version here
 
-      # Install dependencies
-      - name: Install Dependencies
-        run: npm install
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install nightwatch selenium-server chromedriver --save-dev
 
-      # Start the application using Docker Compose
-      - uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "./docker-compose-deploy.yml"  # Change if needed
-
-      # Optional: Wait for services to be ready
-      - name: Wait for Web Application
-        run: sleep 10  # Adjust if your app needs more time
-
-      # Run Nightwatch tests
-      - name: Run Nightwatch Tests
-        run: npm test
-
-      # Upload Nightwatch HTML report if it exists
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: nightwatch-report
-          path: tests_output/nightwatch-html-report/index.html
+      - name: Run Nightwatch tests
+        run: npx nightwatch
