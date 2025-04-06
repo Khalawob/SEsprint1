@@ -5,9 +5,9 @@
 
   <testsuite name="Basic pages" id="front-page.test"
     errors="0" failures="0" hostname="" package="front-page.test" skipped="0"
-    tests="1" time="0.9890" timestamp="">
+    tests="1" time="6.875" timestamp="">
   
-    <testcase name="check the front page loads" classname="Basic pages" time="0.9860" assertions="1">
+    <testcase name="check the front page loads" classname="Basic pages" time="6.871" assertions="1">
 
     
     </testcase>

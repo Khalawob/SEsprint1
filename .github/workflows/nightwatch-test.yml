@@ -12,41 +12,34 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      # Start Docker service if it's not running already (GitHub Actions environment)
-      docker:
-        image: docker:19.03.12
-        options: --privileged
-
     steps:
       # Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # Setup Docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v1
+      # Set up Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Adjust as needed
 
       # Install dependencies
       - name: Install Dependencies
         run: npm install
 
-      # Start the web application using Docker Compose
-      - name: Start Application with Docker Compose
-        run: |
-          docker-compose -f docker-compose.yml up -d  # Starts containers in detached mode
-        # Make sure to replace `docker-compose.yml` with the actual file if it's named differently
+      # Start the application using Docker Compose
+      - uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "./docker-compose-deploy.yml"  # Change if needed
 
-      # Wait for the web app to be ready (this is optional, but it helps avoid race conditions)
+      # Optional: Wait for services to be ready
       - name: Wait for Web Application
-        run: |
-          sleep 10  # Adjust this based on how long your application needs to start
+        run: sleep 10  # Adjust if your app needs more time
 
       # Run Nightwatch tests
       - name: Run Nightwatch Tests
         run: npm test
 
-      # Optionally, collect test reports (if you have any)
+      # Upload Nightwatch HTML report if it exists
       - name: Upload Test Report
         uses: actions/upload-artifact@v2
         with:
