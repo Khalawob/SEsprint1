@@ -4,24 +4,29 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:  # Manual trigger for GitHub Actions workflow
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:   # Manual trigger for the workflow
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Running on the latest Ubuntu environment
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Use your Node.js version here
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Specify the version of Node.js you want to use
 
-      - name: Install dependencies
-        run: |
-          npm install
-          npm install nightwatch selenium-server chromedriver --save-dev
+    - name: Install dependencies
+      run: npm install  # Install the necessary packages from your package.json
 
-      - name: Run Nightwatch tests
-        run: npx nightwatch
+    - name: Install XVFB (for headless tests)
+      run: sudo apt-get install -y xvfb  # Install xvfb for headless browser testing
+
+    - name: Run Nightwatch Tests
+      run: xvfb-run --auto-servernum npm test -- --env chrome  # Run tests using Nightwatch with Chrome
