@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor index.js",
+    "start": "supervisor -e  'js,pug,html' index.js",
     "test": "nightwatch --env chrome ./custom-tests"
   },
   "author": "",
