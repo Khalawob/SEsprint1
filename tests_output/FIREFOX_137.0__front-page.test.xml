@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
-            failures="0"
-            tests="1">
+            failures="1"
+            tests="2">
 
   <testsuite name="Basic pages" id="front-page.test"
-    errors="0" failures="0" hostname="" package="front-page.test" skipped="0"
-    tests="1" time="11.29" timestamp="">
+    errors="0" failures="1" hostname="" package="front-page.test" skipped="0"
+    tests="2" time="13.15" timestamp="">
   
-    <testcase name="check the front page loads" classname="Basic pages" time="11.28" assertions="1">
+    <testcase name="check the front page loads" classname="Basic pages" time="7.825" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="check the database page" classname="Basic pages" time="5.326" assertions="1">  <failure message="Testing if element &lt;/html/body/pre&gt; contains text &#39;xxx&#39; in 5000ms - expected &#34;contains text &#39;xxx&#39;&#34; but got: &#34;element could not be located&#34; (5160ms)">    at DescribeInstance.&lt;anonymous&gt; (C:\Users\Brian\Sprint4\SEsprint1\custom-tests\front-page.test.js:14:15)</failure>
 
     
     </testcase>
