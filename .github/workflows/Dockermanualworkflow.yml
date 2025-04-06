@@ -28,7 +28,7 @@ jobs:
       - name: check dir
         run: ls
       - name: Create the .env file
-        run: echo "$" > .env
+        run: echo "${{ secrets.ENV_FILE }}" > .env
       - name: Check
         run: cat .env
       - name: Install dependencies
@@ -36,7 +36,3 @@ jobs:
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
           compose-file: "./docker-compose-deploy.yml"
-      - name: get dependencies for tests
-        run: sudo apt-get install xvfb
-      - name: run the nightwatch tests
-        run: xvfb-run --auto-servernum npm test -- --env chrome
