@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  web:
+    build:
+      context: ./
+    volumes:
+      - .:/src
+    command: node index.js
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: mysql
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - "3308:3306"
+    volumes:
+      # Any .sql file in this directory will be included
+      - ./database-file:/docker-entrypoint-initdb.d
