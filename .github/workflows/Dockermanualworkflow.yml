@@ -1,6 +1,6 @@
 # This is a workflow that is manually triggered to test the docker build
 
-name: Manual workflow for docker
+name: docker manual workflow
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
