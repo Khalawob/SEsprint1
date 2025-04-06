@@ -24,4 +24,4 @@ jobs:
     # get node js
     - uses: actions/setup-node@v4
     - name: check node
-      run: node –version
+      run: node --version
