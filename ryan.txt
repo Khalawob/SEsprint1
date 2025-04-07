@@ -1,245 +1,1041 @@
 doctype html
-html(lang='en')
+html(lang="en")
   head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title About - Minimizing Food Waste
-    link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css')
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
-    link(rel='stylesheet', href='/css/styles.css')
-    style.
-      .hero-section {
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/food-waste-hero.jpg');
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 7rem 0;
-      }
-      .feature-card {
-        transition: transform 0.3s;
-        height: 100%;
-      }
-      .feature-card:hover {
-        transform: translateY(-5px);
-      }
-      .icon-circle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: #e9f7ef;
-        margin-bottom: 1.5rem;
-      }
-      .stats-section {
-        background-color: #f8f9fa;
-      }
-      .stat-item {
-        text-align: center;
-      }
-      .stat-number {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #28a745;
-      }
-      .step-item {
-        position: relative;
-        padding-left: 30px;
-        margin-bottom: 2rem;
-      }
-      .step-number {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 30px;
-        height: 30px;
-        background-color: #28a745;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-      }
-      .testimonial-card {
-        border-radius: 10px;
-        overflow: hidden;
-      }
-      .testimonial-img {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-
-  body
-    main
-      // Hero Section
-      section.hero-section.text-center
-        .container
-          h1.display-4.fw-bold.mb-4 About FoodShare
-          p.lead.mb-5 We're on a mission to reduce food waste by connecting communities and saving valuable resources.
-          a.btn.btn-success.btn-lg.px-4.me-md-2(href='/listings') Browse Available Food
-          a.btn.btn-outline-light.btn-lg.px-4.ms-2(href='/tag-food') Share Your Food
-
-      // Mission Section
-      section.py-5
-        .container
-          .row.align-items-center
-            .col-lg-6.mb-4.mb-lg-0
-              img.img-fluid.rounded.shadow(src='/images/mission-image.jpg', alt='Our Mission')
-            .col-lg-6
-              h2.fw-bold.mb-4 Our Mission
-              p.lead We partner with local communities to redistribute good-to-eat surplus food to those who need it most, reducing food waste and supporting sustainable living.
-              p At FoodShare, we believe that good food should never go to waste. Our platform connects those with surplus food to those who can use it, creating a more sustainable and equitable food system for everyone.
-              p.text-muted.mt-3 Established: December 7, 2023
-
-      // Stats Section
-      section.stats-section.py-5
-        .container
-          h2.text-center.mb-5 The Food Waste Problem
-          .row.g-4
-            .col-md-3.col-6
-              .stat-item
-                .stat-number 33%
-                p.mb-0 of all food produced globally is wasted
-            .col-md-3.col-6
-              .stat-item
-                .stat-number 1.3B
-                p.mb-0 tonnes of food wasted annually
-            .col-md-3.col-6
-              .stat-item
-                .stat-number 8%
-                p.mb-0 of greenhouse gases from food waste
-            .col-md-3.col-6
-              .stat-item
-                .stat-number £700
-                p.mb-0 average annual cost per UK household
-
-      // Features Section
-      section.py-5.bg-white
-        .container
-          h2.text-center.mb-5 How We Help
-          .row.g-4
-            .col-md-4
-              .card.feature-card.shadow-sm.h-100
-                .card-body.text-center.p-4
-                  .icon-circle
-                    i.fas.fa-hands-helping.fa-2x.text-success
-                  h3.card-title.h5 Community Connection
-                  p.card-text We connect those with surplus food to those who need it, building stronger communities and reducing waste.
-            .col-md-4
-              .card.feature-card.shadow-sm.h-100
-                .card-body.text-center.p-4
-                  .icon-circle
-                    i.fas.fa-leaf.fa-2x.text-success
-                  h3.card-title.h5 Environmental Impact
-                  p.card-text By diverting food from landfills, we reduce methane emissions and conserve the resources used to produce food.
-            .col-md-4
-              .card.feature-card.shadow-sm.h-100
-                .card-body.text-center.p-4
-                  .icon-circle
-                    i.fas.fa-mobile-alt.fa-2x.text-success
-                  h3.card-title.h5 Easy to Use
-                  p.card-text Our platform makes it simple to list surplus food or find available items in your local area.
-
-      // How It Works Section
-      section.py-5.bg-light
-        .container
-          h2.text-center.mb-5 How It Works - Step-by-Step Guide
-          .row
-            .col-lg-6.mb-4.mb-lg-0
-              img.img-fluid.rounded.shadow(src='/images/how-it-works.jpg', alt='How It Works')
-            .col-lg-6
-              .step-item
-                .step-number 1
-                h3 Create an Account
-                p Sign up for free to join our community of food waste warriors.
-              .step-item
-                .step-number 2
-                h3 Browse Available Listings
-                p Find surplus food items near you that would otherwise go to waste.
-              .step-item
-                .step-number 3
-                h3 Share Your Surplus
-                p List any excess food items you have that others might be able to use.
-              .step-item
-                .step-number 4
-                h3 Make the Connection
-                p Arrange pickup or delivery with other community members.
-
-      // Quote Section
-      section.py-5.bg-success.text-white
-        .container
-          .row.justify-content-center
-            .col-lg-8.text-center
-              blockquote.blockquote
-                p.mb-0.fs-4 "Every small effort to reduce waste helps us sustain our environment for future generations."
-                footer.blockquote-footer.text-white.mt-3
-                  cite FoodShare Initiative
-
-      // Testimonials Section
-      section.py-5
-        .container
-          h2.text-center.mb-5 What Our Community Says
-          .row.g-4
-            .col-md-6
-              .card.testimonial-card.shadow-sm
-                .card-body.p-4
-                  .d-flex.align-items-center.mb-3
-                    img.testimonial-img.me-3(src='/images/testimonial1.jpg', alt='Testimonial')
-                    div
-                      h5.mb-0 Alice Johnson
-                      p.text-muted.mb-0 Community Member
-                  p.card-text "I've saved so much money using FoodShare, and it feels great knowing I'm helping reduce waste in my community."
-            .col-md-6
-              .card.testimonial-card.shadow-sm
-                .card-body.p-4
-                  .d-flex.align-items-center.mb-3
-                    img.testimonial-img.me-3(src='/images/testimonial2.jpg', alt='Testimonial')
-                    div
-                      h5.mb-0 Bob Smith
-                      p.text-muted.mb-0 Local Restaurant Owner
-                  p.card-text "As a restaurant owner, FoodShare has been invaluable in helping us find homes for our surplus food rather than throwing it away."
-
-      // Join Section
-      section.py-5.bg-light
-        .container.text-center
-          h2.mb-4 Join Our Community!
-          p.lead.mb-4 Become part of a growing movement dedicated to minimizing food waste and creating a sustainable future.
-          a.btn.btn-success.btn-lg(href='/signup') Sign Up Today
-
-    footer.bg-dark.text-white.py-4
+    title Tag Your Food Item | Minimise Food Waste
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="description" content="Tag and share your food items to reduce waste and help your community")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css")
+    link(rel="stylesheet" href="/css/styles.css")
+  body.bg-light
+    // Navigation Bar
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+      .container
+        a.navbar-brand(href='/')
+          i.fas.fa-seedling.me-2
+          | Minimise Food Waste
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+          span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          ul.navbar-nav.ms-auto
+            li.nav-item
+              a.nav-link(href='/listing') Browse Food
+            li.nav-item
+              a.nav-link(href='/userlist') Community
+            li.nav-item
+              a.nav-link.active(href='/tag') Share Food
+            li.nav-item
+              a.nav-link(href='/about') About Us
+    
+    // Main Content
+    .container.mt-5.pt-5
+      .row.justify-content-center
+        .col-lg-8
+          .card.shadow-lg.border-0.rounded-lg.mb-5
+            .card-header.bg-success.text-white
+              h2.text-center.my-2
+                i.fas.fa-tag.me-2
+                | Tag Your Food Item
+            .card-body
+              // Progress Bar
+              .progress.mb-4(style="height: 25px;")
+                .progress-bar.bg-success.progress-bar-striped.progress-bar-animated#formProgress(role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100") 0%
+              
+              // Form Tabs
+              ul.nav.nav-tabs.mb-4#formTabs(role="tablist")
+                li.nav-item(role="presentation")
+                  button.nav-link.active#basics-tab(data-bs-toggle="tab" data-bs-target="#basics" type="button" role="tab" aria-controls="basics" aria-selected="true")
+                    i.fas.fa-info-circle.me-2
+                    | Basic Info
+                li.nav-item(role="presentation")
+                  button.nav-link#details-tab(data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="false")
+                    i.fas.fa-list-ul.me-2
+                    | Details
+                li.nav-item(role="presentation")
+                  button.nav-link#photos-tab(data-bs-toggle="tab" data-bs-target="#photos" type="button" role="tab" aria-controls="photos" aria-selected="false")
+                    i.fas.fa-camera.me-2
+                    | Photos
+                li.nav-item(role="presentation")
+                  button.nav-link#location-tab(data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab" aria-controls="location" aria-selected="false")
+                    i.fas.fa-map-marker-alt.me-2
+                    | Location
+              
+              form#tagForm.needs-validation(action="/submit-tag" method="post" novalidate)
+                .tab-content
+                  // Basic Info Tab
+                  .tab-pane.fade.show.active#basics(role="tabpanel" aria-labelledby="basics-tab")
+                    .mb-4
+                      label.form-label(for="foodName") 
+                        i.fas.fa-utensils.me-2
+                        | Food Name
+                        span.text-danger *
+                      input#foodName.form-control.form-control-lg(type="text" name="foodName" required data-bs-toggle="tooltip" data-bs-placement="right" title="Enter the name of your food item")
+                      .invalid-feedback Please provide a food name.
+                      .form-text We recommend being specific (e.g., "Organic Red Apples" rather than just "Apples")
+                    
+                    .row.mb-4
+                      .col-md-6
+                        label.form-label(for="category")
+                          i.fas.fa-folder.me-2
+                          | Category
+                          span.text-danger *
+                        select#category.form-select.form-select-lg(name="category" required onchange="updateSubcategories()")
+                          option(value="" selected disabled) Select Category
+                          option(value="fruits") Fruits
+                          option(value="vegetables") Vegetables
+                          option(value="dairy") Dairy Products
+                          option(value="bakery") Bakery Items
+                          option(value="pantry") Pantry Items
+                          option(value="prepared") Prepared Meals
+                          option(value="other") Other
+                        .invalid-feedback Please select a category.
+                      
+                      .col-md-6
+                        label.form-label(for="subcategory")
+                          i.fas.fa-tag.me-2
+                          | Subcategory
+                          span.text-danger *
+                        select#subcategory.form-select.form-select-lg(name="subcategory" required)
+                          option(value="" selected disabled) Select Category First
+                        .invalid-feedback Please select a subcategory.
+                    
+                    .d-flex.justify-content-end.mt-4
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="details-tab")
+                        | Next: Details
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Details Tab
+                  .tab-pane.fade#details(role="tabpanel" aria-labelledby="details-tab")
+                    .row.mb-4
+                      .col-md-6
+                        label.form-label(for="quantity")
+                          i.fas.fa-balance-scale.me-2
+                          | Quantity
+                          span.text-danger *
+                        .input-group
+                          input#quantity.form-control.form-control-lg(type="number" name="quantity" min="1" required)
+                          select#quantityUnit.form-select.form-select-lg(name="quantityUnit" required)
+                            option(value="items") Items
+                            option(value="kg") Kilograms
+                            option(value="g") Grams
+                            option(value="l") Liters
+                            option(value="ml") Milliliters
+                        .invalid-feedback Please specify the quantity.
+                      
+                      .col-md-6
+                        label.form-label(for="condition")
+                          i.fas.fa-thermometer-half.me-2
+                          | Condition
+                          span.text-danger *
+                        select#condition.form-select.form-select-lg(name="condition" required)
+                          option(value="" selected disabled) Select Condition
+                          option(value="fresh") Fresh
+                          option(value="goodCondition") Good Condition
+                          option(value="nearExpiry") Near Expiry Date
+                          option(value="expired") Expired (Still Safe)
+                        .invalid-feedback Please select the condition.
+                    
+                    .mb-4
+                      label.form-label(for="expiryDate")
+                        i.fas.fa-calendar-alt.me-2
+                        | Expiry Date
+                      input#expiryDate.form-control.form-control-lg(type="text" name="expiryDate" placeholder="Select date...")
+                      .form-text If applicable, select the expiry date of the food item
+                    
+                    .mb-4
+                      label.form-label(for="description")
+                        i.fas.fa-align-left.me-2
+                        | Description
+                        span.text-danger *
+                      textarea#description.form-control(name="description" rows="4" required)
+                      .invalid-feedback Please provide a description.
+                      .form-text Include details like brand, ingredients, dietary information (vegan, gluten-free, etc.)
+                    
+                    .mb-4
+                      label.form-label Dietary Information
+                      .row
+                        .col-md-4
+                          .form-check.mb-2
+                            input#vegetarian.form-check-input(type="checkbox" name="dietary" value="vegetarian")
+                            label.form-check-label(for="vegetarian") Vegetarian
+                        .col-md-4
+                          .form-check.mb-2
+                            input#vegan.form-check-input(type="checkbox" name="dietary" value="vegan")
+                            label.form-check-label(for="vegan") Vegan
+                        .col-md-4
+                          .form-check.mb-2
+                            input#glutenFree.form-check-input(type="checkbox" name="dietary" value="glutenFree")
+                            label.form-check-label(for="glutenFree") Gluten-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#dairyFree.form-check-input(type="checkbox" name="dietary" value="dairyFree")
+                            label.form-check-label(for="dairyFree") Dairy-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#nutFree.form-check-input(type="checkbox" name="dietary" value="nutFree")
+                            label.form-check-label(for="nutFree") Nut-Free
+                        .col-md-4
+                          .form-check.mb-2
+                            input#organic.form-check-input(type="checkbox" name="dietary" value="organic")
+                            label.form-check-label(for="organic") Organic
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="basics-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="photos-tab")
+                        | Next: Photos
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Photos Tab
+                  .tab-pane.fade#photos(role="tabpanel" aria-labelledby="photos-tab")
+                    .mb-4
+                      label.form-label
+                        i.fas.fa-image.me-2
+                        | Food Photos
+                        span.text-muted  (Recommended)
+                      .dropzone#photoDropzone
+                        .dz-message.needsclick
+                          i.fas.fa-cloud-upload-alt.fa-3x.mb-3
+                          h4 Drop files here or click to upload
+                          span.text-muted Upload up to 5 photos of your food item
+                    
+                    .alert.alert-info.d-flex.align-items-center.mb-4
+                      i.fas.fa-lightbulb.fa-2x.me-3
+                      div
+                        strong Tip:
+                        |  Clear, well-lit photos from multiple angles help others understand what you're sharing.
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="details-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg.next-tab(type="button" data-next="location-tab")
+                        | Next: Location
+                        i.fas.fa-arrow-right.ms-2
+                  
+                  // Location Tab
+                  .tab-pane.fade#location(role="tabpanel" aria-labelledby="location-tab")
+                    .mb-4
+                      label.form-label(for="pickupOption")
+                        i.fas.fa-exchange-alt.me-2
+                        | Pickup Options
+                        span.text-danger *
+                      select#pickupOption.form-select.form-select-lg(name="pickupOption" required onchange="togglePickupDetails()")
+                        option(value="" selected disabled) Select Pickup Option
+                        option(value="address") Pickup from my address
+                        option(value="publicLocation") Pickup at public location
+                        option(value="delivery") I can deliver
+                      .invalid-feedback Please select a pickup option.
+                    
+                    #addressDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="address") Your Address
+                        input#address.form-control(type="text" name="address" placeholder="Enter your full address")
+                        .form-text This will only be shared with confirmed recipients
+                    
+                    #publicLocationDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="publicLocation") Public Location
+                        input#publicLocation.form-control(type="text" name="publicLocation" placeholder="e.g., Local Library, Community Center")
+                      
+                      .mb-4
+                        label.form-label(for="locationNotes") Location Notes
+                        textarea#locationNotes.form-control(name="locationNotes" rows="2" placeholder="Any details about the meeting point...")
+                    
+                    #deliveryDetails.pickup-details.d-none
+                      .mb-4
+                        label.form-label(for="deliveryRadius") Delivery Radius (miles)
+                        input#deliveryRadius.form-control(type="number" name="deliveryRadius" min="1" max="20" placeholder="How far you're willing to deliver")
+                    
+                    .mb-4
+                      label.form-label(for="availabilityDates")
+                        i.fas.fa-calendar-week.me-2
+                        | Availability Dates
+                        span.text-danger *
+                      input#availabilityDates.form-control(type="text" name="availabilityDates" required)
+                      .invalid-feedback Please specify when the item is available.
+                    
+                    .mb-4
+                      label.form-label(for="availabilityTime")
+                        i.fas.fa-clock.me-2
+                        | Preferred Pickup Times
+                        span.text-danger *
+                      select#availabilityTime.form-select.form-select-lg(name="availabilityTime" required multiple)
+                        option(value="morning") Morning (8am - 12pm)
+                        option(value="afternoon") Afternoon (12pm - 5pm)
+                        option(value="evening") Evening (5pm - 9pm)
+                      .invalid-feedback Please select preferred pickup times.
+                    
+                    .mb-4
+                      label.form-label Contact Preferences
+                      .form-check.mb-2
+                        input#contactApp.form-check-input(type="checkbox" name="contactPreference" value="app" checked)
+                        label.form-check-label(for="contactApp") In-app messaging
+                      .form-check.mb-2
+                        input#contactEmail.form-check-input(type="checkbox" name="contactPreference" value="email")
+                        label.form-check-label(for="contactEmail") Email
+                      .form-check.mb-2
+                        input#contactPhone.form-check-input(type="checkbox" name="contactPreference" value="phone")
+                        label.form-check-label(for="contactPhone") Phone
+                    
+                    .d-flex.justify-content-between.mt-4
+                      button.btn.btn-outline-secondary.btn-lg.prev-tab(type="button" data-prev="photos-tab")
+                        i.fas.fa-arrow-left.me-2
+                        | Previous
+                      button.btn.btn-success.btn-lg(type="submit")
+                        i.fas.fa-paper-plane.me-2
+                        | Submit Food Item
+            
+            .card-footer.text-center.py-3
+              .text-muted
+                i.fas.fa-heart.text-danger.me-1
+                | Thank you for helping reduce food waste in our community!
+      
+      // Environmental Impact
+      .row.justify-content-center.mb-5
+        .col-lg-8
+          .card.border-0.shadow-sm
+            .card-body
+              h3.text-center.mb-4
+                i.fas.fa-leaf.text-success.me-2
+                | Your Environmental Impact
+              p.text-center By sharing food items instead of throwing them away, you're making a real difference:
+              .row.text-center.g-4
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-cloud.fa-3x.text-info.mb-3
+                    h4.counter(data-target="2.5") 0
+                    p.text-muted kg CO₂ emissions saved per food item shared
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-tint.fa-3x.text-primary.mb-3
+                    h4.counter(data-target="1000") 0
+                    p.text-muted liters of water saved per kg of food
+                .col-md-4
+                  .impact-stat
+                    i.fas.fa-bolt.fa-3x.text-warning.mb-3
+                    h4.counter(data-target="4.5") 0
+                    p.text-muted kWh energy saved per food item
+    
+    // Footer
+    footer.bg-dark.text-white.py-4.mt-auto
       .container
         .row
           .col-md-4.mb-4.mb-md-0
-            h5 FoodShare
-            p Reducing food waste, one connection at a time.
+            h5
+              i.fas.fa-seedling.me-2
+              | Minimise Food Waste
+            p.small A community-driven platform to reduce food waste and build sustainable communities.
           .col-md-4.mb-4.mb-md-0
             h5 Quick Links
             ul.list-unstyled
               li
-                a.text-white(href='/') Home
+                a.text-white.text-decoration-none(href="/") Home
               li
-                a.text-white(href='/about') About
+                a.text-white.text-decoration-none(href="/listing") Browse Food
               li
-                a.text-white(href='/listings') Listings
+                a.text-white.text-decoration-none(href="/userlist") Community
               li
-                a.text-white(href='/contact') Contact
+                a.text-white.text-decoration-none(href="/about") About Us
           .col-md-4
-            h5 Connect With Us
-            ul.list-unstyled.d-flex.justify-content-start.justify-content-md-end
-              li.me-3
-                a.text-white(href='#')
-                  i.fab.fa-facebook-f.fa-lg
-              li.me-3
-                a.text-white(href='#')
-                  i.fab.fa-twitter.fa-lg
-              li.me-3
-                a.text-white(href='#')
-                  i.fab.fa-instagram.fa-lg
-        hr.my-4
-        p.text-center.mb-0 &copy; 2025 FoodShare Initiative. All rights reserved.
+            h5 Contact Us
+            ul.list-unstyled
+              li
+                i.fas.fa-envelope.me-2
+                | info@minimisefoodwaste.org
+              li
+                i.fas.fa-phone.me-2
+                | +44 123 456 7890
+        hr.my-3
+        .row
+          .col-md-6.text-center.text-md-start
+            p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.
+          .col-md-6.text-center.text-md-end
+            a.text-white.me-2(href="#")
+              i.fab.fa-facebook-f
+            a.text-white.me-2(href="#")
+              i.fab.fa-twitter
+            a.text-white.me-2(href="#")
+              i.fab.fa-instagram
+            a.text-white(href="#")
+              i.fab.fa-linkedin-in
+    
+    // Modal for Success
+    #successModal.modal.fade(tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true")
+      .modal-dialog.modal-dialog-centered
+        .modal-content
+          .modal-header.bg-success.text-white
+            h5#successModalLabel.modal-title
+              i.fas.fa-check-circle.me-2
+              | Success!
+            button.btn-close.btn-close-white(type="button" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body.text-center.py-4
+            i.fas.fa-leaf.fa-5x.text-success.mb-3
+            h4.mb-3 Your food item has been successfully tagged!
+            p.mb-0 Thank you for helping reduce food waste in our community.
+          .modal-footer
+            button.btn.btn-secondary(type="button" data-bs-dismiss="modal") Close
+            a.btn.btn-success(href="/listing")
+              i.fas.fa-list.me-2
+              | View Listings
+    
+    // Scripts
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/flatpickr")
+    script(src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js")
+    script.
+      // Initialize tooltips
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+      
+      // Form validation
+      (() => {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            } else {
+              event.preventDefault()
+              updateProgress(100)
+              $('#successModal').modal('show')
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+      })()
+      
+      // Tab navigation
+      document.querySelectorAll('.next-tab').forEach(button => {
+        button.addEventListener('click', () => {
+          const nextTab = button.getAttribute('data-next')
+          const nextTabEl = document.getElementById(nextTab)
+          const tab = new bootstrap.Tab(nextTabEl)
+          tab.show()
+          updateProgress()
+        })
+      })
+      
+      document.querySelectorAll('.prev-tab').forEach(button => {
+        button.addEventListener('click', () => {
+          const prevTab = button.getAttribute('data-prev')
+          const prevTabEl = document.getElementById(prevTab)
+          const tab = new bootstrap.Tab(prevTabEl)
+          tab.show()
+          updateProgress()
+        })
+      })
+      
+      // Progress bar
+      function updateProgress(override) {
+        const tabs = ['basics-tab', 'details-tab', 'photos-tab', 'location-tab']
+        const activeTab = document.querySelector('.nav-link.active').id
+        const currentIndex = tabs.indexOf(activeTab)
+        const progressPercentage = override || Math.round((currentIndex / (tabs.length - 1)) * 100)
+        
+        const progressBar = document.getElementById('formProgress')
+        progressBar.style.width = `${progressPercentage}%`
+        progressBar.setAttribute('aria-valuenow', progressPercentage)
+        progressBar.textContent = `${progressPercentage}%`
+      }
+      
+      // Initialize date pickers
+      flatpickr("#expiryDate", {
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today"
+      })
+      
+      flatpickr("#availabilityDates", {
+        mode: "range",
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        maxDate: new Date().fp_incr(30)
+      })
+      
+      // Initialize dropzone
+      Dropzone.autoDiscover = false
+      const myDropzone = new Dropzone("#photoDropzone", {
+        url: "/upload-photos",
+        maxFiles: 5,
+        maxFilesize: 5,
+        acceptedFiles: "image/*",
+        addRemoveLinks: true,
+        dictDefaultMessage: "Drop files here or click to upload",
+        autoProcessQueue: false
+      })
+      
+      // Subcategories
+      const subcategories = {
+        fruits: ["Apples", "Bananas", "Berries", "Citrus", "Stone Fruits", "Tropical", "Other Fruits"],
+        vegetables: ["Leafy Greens", "Root Vegetables", "Squash", "Tomatoes", "Peppers", "Onions", "Potatoes", "Other Vegetables"],
+        dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Other Dairy"],
+        bakery: ["Bread", "Pastries", "Cakes", "Cookies", "Other Baked Goods"],
+        pantry: ["Canned Goods", "Dried Foods", "Grains", "Pasta", "Rice", "Spices", "Other Pantry Items"],
+        prepared: ["Soups", "Salads", "Main Dishes", "Side Dishes", "Desserts", "Other Prepared Foods"],
+        other: ["Beverages", "Snacks", "Condiments", "Baby Food", "Pet Food", "Miscellaneous"]
+      }
+      
+      function updateSubcategories() {
+        const category = document.getElementById('category').value
+        const subcategorySelect = document.getElementById('subcategory')
+        
+        // Clear existing options
+        subcategorySelect.innerHTML = ''
+        
+        // Add default option
+        const defaultOption = document.createElement('option')
+        defaultOption.value = ''
+        defaultOption.disabled = true
+        defaultOption.selected = true
+        defaultOption.textContent = 'Select Subcategory'
+        subcategorySelect.appendChild(defaultOption)
+        
+        // Add subcategories based on selected category
+        if (category && subcategories[category]) {
+          subcategories[category].forEach(sub => {
+            const option = document.createElement('option')
+            option.value = sub.toLowerCase().replace(/\s+/g, '')
+            option.textContent = sub
+            subcategorySelect.appendChild(option)
+          })
+        }
+      }
+      
+      // Toggle pickup details
+      function togglePickupDetails() {
+        const option = document.getElementById('pickupOption').value
+        
+        // Hide all details sections first
+        document.querySelectorAll('.pickup-details').forEach(el => {
+          el.classList.add('d-none')
+        })
+        
+        // Show the selected option's details
+        if (option) {
+          document.getElementById(`${option}Details`).classList.remove('d-none')
+        }
+      }
+      
+      // Counter animation for impact stats
+      const counterElements = document.querySelectorAll('.counter')
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = parseFloat(entry.target.getAttribute('data-target'))
+            const increment = target / 100
+            let current = 0
+            
+            const timer = setInterval(() => {
+              current += increment
+              entry.target.textContent = current.toFixed(1)
+              
+              if (current >= target) {
+                entry.target.textContent = target
+                clearInterval(timer)
+              }
+            }, 20)
+            
+            observer.unobserve(entry.target)
+          }
+        })
+      }, { threshold: 0.5 })
+      
+      counterElements.forEach(counter => {
+        observer.observe(counter)
+      })
+      
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        updateProgress(0)
+        
+        // Initialize select2 for multiple select
+        $('#availabilityTime').select2({
+          placeholder: "Select preferred times",
+          closeOnSelect: false
+        })
+      })
+      extends layout
 
-    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js')
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          li.nav-item
+            a.nav-link.btn.btn-outline-light.ms-2(href='/login') Login
+          li.nav-item
+            a.nav-link.btn.btn-light.text-success.ms-2.active(href='/signup') Sign Up
+
+  // Signup Form Section
+  section.py-5.mt-5
+    .container
+      .row.justify-content-center
+        .col-md-8
+          .card.border-0.shadow-sm
+            .card-header.bg-success.text-white.py-3
+              h3.card-title.mb-0.text-center Create Your Account
+            .card-body.p-4
+              if error
+                .alert.alert-danger.mb-3= error
+              .alert.alert-success.mb-3
+                strong Testing Mode Enabled
+                p.mb-0 You can sign up with any information. All fields will be accepted.
+              form(action='/signup' method='POST')
+                .row
+                  .col-md-6.mb-3
+                    label.form-label(for='firstName') First Name
+                    input#firstName.form-control(type='text' name='firstName' required)
+                  .col-md-6.mb-3
+                    label.form-label(for='lastName') Last Name
+                    input#lastName.form-control(type='text' name='lastName' required)
+                
+                .mb-3
+                  label.form-label(for='email') Email Address
+                  input#email.form-control(type='email' name='email' required)
+                  .form-text.text-muted We'll never share your email with anyone else.
+                
+                .mb-3
+                  label.form-label(for='location') Location
+                  input#location.form-control(type='text' name='location' required)
+                  .form-text.text-muted Enter your city or neighborhood
+                
+                .row
+                  .col-md-6.mb-3
+                    label.form-label(for='password') Password
+                    input#password.form-control(type='password' name='password' required)
+                  .col-md-6.mb-3
+                    label.form-label(for='confirmPassword') Confirm Password
+                    input#confirmPassword.form-control(type='password' name='confirmPassword' required)
+                
+                .mb-3.form-check
+                  input#terms.form-check-input(type='checkbox' name='terms' required)
+                  label.form-check-label(for='terms') 
+                    | I agree to the 
+                    a.text-success(href='#') Terms and Conditions
+                
+                .d-grid.gap-2
+                  button.btn.btn-success.btn-lg(type='submit') Create Account
+                  
+              .text-center.mt-3
+                p.mb-0 Already have an account? 
+                  a.text-success(href='/login') Login here
+
+  // Footer
+  footer.bg-dark.text-white.py-4.mt-5
+    .container
+      .row
+        .col-md-4.mb-3
+          h5 Minimise Food Waste
+          p.small A community-driven platform to reduce food waste and help those in need.
+        
+        .col-md-4.mb-3
+          h5 Quick Links
+          ul.list-unstyled
+            li
+              a.text-decoration-none.text-white-50(href='/listing') Browse Food
+            li
+              a.text-decoration-none.text-white-50(href='/userlist') Community
+            li
+              a.text-decoration-none.text-white-50(href='/about') About Us
+        
+        .col-md-4.mb-3
+          h5 Connect With Us
+          .d-flex.gap-2
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-facebook
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-twitter
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-instagram
+      
+      hr.my-4
+      .row
+        .col-12.text-center
+          p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.
+extends layout
+
+block content
+  // Navigation Bar
+  nav.navbar.navbar-expand-lg.navbar-dark.bg-success.fixed-top
+    .container
+      a.navbar-brand(href='/')
+        i.fas.fa-seedling.me-2
+        | Minimise Food Waste
+      button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav')
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav.ms-auto
+          li.nav-item
+            a.nav-link(href='/listing') Browse Food
+          li.nav-item
+            a.nav-link(href='/userlist') Community
+          li.nav-item
+            a.nav-link(href='/about') About Us
+          li.nav-item
+            a.nav-link.btn.btn-outline-light.ms-2.active(href='/login') Login
+          li.nav-item
+            a.nav-link.btn.btn-light.text-success.ms-2(href='/signup') Sign Up
+
+  // Login Form Section
+  section.py-5.mt-5
+    .container
+      .row.justify-content-center
+        .col-md-6
+          .card.border-0.shadow-sm
+            .card-header.bg-success.text-white.py-3
+              h3.card-title.mb-0.text-center Login to Your Account
+            .card-body.p-4
+              if error
+                .alert.alert-danger.mb-3= error
+              // Test account information
+              .alert.alert-success.mb-3
+                strong Testing Mode Enabled
+                p.mb-0 You can log in with any email and password combination.
+              form(action='/login' method='POST')
+                .mb-3
+                  label.form-label(for='email') Email Address
+                  input#email.form-control(type='email' name='email' required)
+                .mb-3
+                  label.form-label(for='password') Password
+                  input#password.form-control(type='password' name='password' required)
+                .mb-3.form-check
+                  input#remember.form-check-input(type='checkbox' name='remember')
+                  label.form-check-label(for='remember') Remember me
+                .d-grid.gap-2
+                  button.btn.btn-success.btn-lg(type='submit') Login
+                  
+              .text-center.mt-3
+                p.mb-0 Don't have an account? 
+                  a.text-success(href='/signup') Sign up here
+                p.mt-2
+                  a.text-muted.small(href='#') Forgot your password?
+
+  // Footer
+  footer.bg-dark.text-white.py-4.mt-5
+    .container
+      .row
+        .col-md-4.mb-3
+          h5 Minimise Food Waste
+          p.small A community-driven platform to reduce food waste and help those in need.
+        
+        .col-md-4.mb-3
+          h5 Quick Links
+          ul.list-unstyled
+            li
+              a.text-decoration-none.text-white-50(href='/listing') Browse Food
+            li
+              a.text-decoration-none.text-white-50(href='/userlist') Community
+            li
+              a.text-decoration-none.text-white-50(href='/about') About Us
+        
+        .col-md-4.mb-3
+          h5 Connect With Us
+          .d-flex.gap-2
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-facebook
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-twitter
+            a.btn.btn-outline-light.btn-sm(href='#')
+              i.fab.fa-instagram
+      
+      hr.my-4
+      .row
+        .col-12.text-center
+          p.small.mb-0 &copy; 2025 Minimise Food Waste. All rights reserved.
+extends layout
+
+block content
+  .container-fluid.py-5.mt-5
+    .row
+      // Sidebar with conversation list
+      .col-md-4.col-lg-3
+        .card.shadow-sm.border-0.mb-4
+          .card-header.bg-success.text-white.py-3
+            h5.mb-0
+              i.fas.fa-comments.me-2
+              | Messages
+          .card-body.p-0
+            a.btn.btn-outline-secondary.btn-sm.d-block.m-3(href="/messages")
+              i.fas.fa-arrow-left.me-2
+              | Back to All Messages
+          
+          .list-group.list-group-flush
+            // User info card for the conversation partner
+            .list-group-item.border-0
+              .d-flex.align-items-center.mb-3
+                if otherUser.avatar
+                  img.rounded-circle.me-3(src=otherUser.avatar, alt=otherUser.name, width="50", height="50")
+                else
+                  .avatar-placeholder.rounded-circle.bg-secondary.text-white.d-flex.align-items-center.justify-content-center.me-3(style="width: 50px; height: 50px;")
+                    i.fas.fa-user
+                .user-info
+                  h5.mb-0= otherUser.name
+                  small.text-muted
+                    i.fas.fa-map-marker-alt.me-1
+                    | #{otherUser.location || 'London, UK'}
+              
+              // User stats
+              .user-stats.mt-3
+                .row.g-2
+                  .col-6
+                    .stat-item.border.rounded.p-2.text-center
+                      .stat-value.text-success.fw-bold #{otherUser.stats ? otherUser.stats.averageRating : '4.8'}
+                      .stat-label.small Rating
+                  .col-6
+                    .stat-item.border.rounded.p-2.text-center
+                      .stat-value.text-success.fw-bold #{otherUser.stats ? otherUser.stats.successfulCompletions : '12'}
+                      .stat-label.small Exchanges
+                
+                .mt-3
+                  a.btn.btn-outline-success.btn-sm.w-100(href=`/profile/${otherUser.id}`)
+                    i.fas.fa-user.me-2
+                    | View Profile
+            
+            // Shared food items
+            .list-group-item.border-top
+              h6.mb-3 Shared Food Items
+              if otherUser.sharedItems && otherUser.sharedItems.length > 0
+                each item in otherUser.sharedItems.slice(0, 3)
+                  .shared-item.mb-2
+                    .d-flex.align-items-center
+                      .food-icon.bg-light.rounded.p-2.me-2
+                        i.fas.fa-carrot.text-success
+                      .item-details
+                        .item-name= item.name
+                        small.text-muted= item.date
+              else
+                p.text-muted.small.mb-0 No shared items yet
+      
+      // Main content area - Messages
+      .col-md-8.col-lg-9
+        .card.shadow-sm.border-0.h-100
+          .card-header.bg-light.py-3.d-flex.justify-content-between.align-items-center
+            h5.mb-0
+              | Conversation with 
+              span.text-success= otherUser.name
+            .conversation-actions
+              button.btn.btn-outline-secondary.btn-sm.me-2(type="button")
+                i.fas.fa-phone.me-1
+                | Call
+              button.btn.btn-outline-secondary.btn-sm(type="button", data-bs-toggle="modal", data-bs-target="#reportModal")
+                i.fas.fa-flag.me-1
+                | Report
+          
+          // Messages container
+          .card-body.p-0
+            .messages-container(style="height: 60vh; overflow-y: auto;")
+              .p-3
+                if messages && messages.length > 0
+                  each message in messages
+                    .message.mb-3(class=message.senderId === user.id ? 'message-outgoing' : 'message-incoming')
+                      if message.senderId !== user.id
+                        .d-flex
+                          if otherUser.avatar
+                            img.rounded-circle.me-2(src=otherUser.avatar, alt=otherUser.name, width="32", height="32")
+                          else
+                            .avatar-placeholder.rounded-circle.bg-secondary.text-white.d-flex.align-items-center.justify-content-center.me-2(style="width: 32px; height: 32px;")
+                              i.fas.fa-user.fa-sm
+                          .message-bubble.bg-light.rounded.p-3
+                            .message-content= message.content
+                            .message-meta.d-flex.justify-content-between.align-items-center.mt-1
+                              small.text-muted= new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                              if message.status === 'read'
+                                small.text-muted
+                                  i.fas.fa-check-double.text-success.ms-1
+                      else
+                        .d-flex.justify-content-end
+                          .message-bubble.bg-success.text-white.rounded.p-3
+                            .message-content= message.content
+                            .message-meta.d-flex.justify-content-between.align-items-center.mt-1
+                              small.text-white-50= new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                              if message.status === 'read'
+                                small.text-white-50
+                                  i.fas.fa-check-double.ms-1
+                              else if message.status === 'delivered'
+                                small.text-white-50
+                                  i.fas.fa-check.ms-1
+                              else
+                                small.text-white-50
+                                  i.fas.fa-clock.ms-1
+                else
+                  .text-center.py-5
+                    i.fas.fa-comments.text-muted.fa-3x.mb-3
+                    p.mb-0 No messages yet
+                    small.text-muted Start the conversation!
+          
+          // Message input
+          .card-footer.bg-white.p-3
+            form#messageForm
+              .input-group
+                button.btn.btn-outline-secondary(type="button")
+                  i.fas.fa-paperclip
+                input.form-control(type="text", placeholder="Type your message...", required)
+                button.btn.btn-success(type="submit")
+                  i.fas.fa-paper-plane
+
+  // Report User Modal
+  #reportModal.modal.fade(tabindex="-1", aria-labelledby="reportModalLabel", aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header.bg-danger.text-white
+          h5#reportModalLabel.modal-title
+            i.fas.fa-flag.me-2
+            | Report User
+          button.btn-close.btn-close-white(type="button", data-bs-dismiss="modal", aria-label="Close")
+        .modal-body
+          form#reportForm
+            .mb-3
+              label.form-label(for="reportReason") Reason for Report
+              select#reportReason.form-select(required)
+                option(value="", selected, disabled) Select a reason
+                option(value="inappropriate") Inappropriate behavior
+                option(value="no-show") Did not show up for pickup
+                option(value="misrepresentation") Food item misrepresented
+                option(value="harassment") Harassment
+                option(value="other") Other
+            
+            .mb-3
+              label.form-label(for="reportDetails") Details
+              textarea#reportDetails.form-control(rows="4", required, placeholder="Please provide details about your report...")
+        
+        .modal-footer
+          button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Cancel
+          button.btn.btn-danger(type="submit", form="reportForm")
+            i.fas.fa-paper-plane.me-2
+            | Submit Report
+
+block styles
+  style.
+    .message-bubble {
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    
+    .message-outgoing .message-bubble {
+      border-top-right-radius: 0 !important;
+    }
+    
+    .message-incoming .message-bubble {
+      border-top-left-radius: 0 !important;
+    }
+    
+    .messages-container {
+      background-color: #f9f9f9;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e5e5e5' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+
+block scripts
+  script.
+    // Scroll to bottom of messages container on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const messagesContainer = document.querySelector('.messages-container');
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+    
+    // Handle message form submission
+    document.getElementById('messageForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const messageInput = this.querySelector('input');
+      const content = messageInput.value.trim();
+      
+      if (!content) return;
+      
+      try {
+        // In a real implementation, you would send this to the server
+        const response = await fetch(`/messages/${conversation.id}/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ content })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Add message to UI
+          const messagesContainer = document.querySelector('.messages-container');
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message mb-3 message-outgoing';
+          
+          const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+          
+          messageDiv.innerHTML = `
+            <div class="d-flex justify-content-end">
+              <div class="message-bubble bg-success text-white rounded p-3">
+                <div class="message-content">${content}</div>
+                <div class="message-meta d-flex justify-content-between align-items-center mt-1">
+                  <small class="text-white-50">${currentTime}</small>
+                  <small class="text-white-50">
+                    <i class="fas fa-clock ms-1"></i>
+                  </small>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          messagesContainer.appendChild(messageDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          
+          // Clear input
+          messageInput.value = '';
+        } else {
+          console.error('Error sending message:', result.error);
+          alert('Failed to send message. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message. Please try again.');
+      }
+    });
+    
+    // Handle report form submission
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const reason = document.getElementById('reportReason').value;
+      const details = document.getElementById('reportDetails').value;
+      
+      if (!reason || !details) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // In a real implementation, you would send this to the server
+      alert('Report submitted successfully. Our team will review it shortly.');
+      
+      // Close modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('reportModal'));
+      modal.hide();
+      
+      // Clear form
+      this.reset();
+    });
