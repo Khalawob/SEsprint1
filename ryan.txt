@@ -1038,4 +1038,4 @@ block scripts
       
       // Clear form
       this.reset();
-    });
+    }); 
